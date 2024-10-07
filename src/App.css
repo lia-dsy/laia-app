@@ -162,3 +162,7 @@ img {
   border-radius: 50%;
   margin: 2px 5px;
 } 
+
+audio {
+  display:none;
+}

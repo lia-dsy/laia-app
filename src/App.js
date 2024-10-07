@@ -9,6 +9,8 @@ import 'firebase/analytics';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
+import axios from 'axios';
+
 firebase.initializeApp({
   // your config
   apiKey: "AIzaSyC4tLPFncq5lZSOtYrCS0AvgpoCp79wKww",
@@ -23,6 +25,7 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const analytics = firebase.analytics();
+const backendPath = 'http://localhost:5000/api/text-to-speech';
 
 function App() {
 
@@ -89,6 +92,8 @@ function ChatRoom() {
 
     setFormValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
+
+    await sendBackend(formValue);
   }
 
   return (<>
@@ -107,6 +112,8 @@ function ChatRoom() {
       <button type="submit" disabled={!formValue}>🕊️</button>
 
     </form>
+
+      <audio id="audioPlayer" controls></audio>
   </>)
 }
 
@@ -124,5 +131,45 @@ function ChatMessage(props) {
   </>)
 }
 
+async function sendBackend(msj){
+  try {
+    const response = await axios.post(backendPath, {
+      input_text: msj});
+      const data = await response.data;
+      const audioB64 = data.audio_file;
 
+    const audioBlob = base64ToBlob(audioB64, 'audio/mp3');
+    const audio = URL.createObjectURL(audioBlob); // Crea una URL para el blob de audio
+
+    console.log('Audio URL:', data.audio_path);
+    console.log('Audio File:', audio);
+    console.log('Texto:', data.input_text);
+
+    playAudio(audio);
+
+  } catch (error) {
+    console.error('Error al enviar la petición:', error);
+  }
+}
+
+function base64ToBlob(base64, mime) {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: mime });
+};
+
+const playAudio = (file) => {
+  if (file) {
+    console.log('Reproduciendo\n' + file);
+    const audioPlayer = document.getElementById('audioPlayer');
+    audioPlayer.src = file;
+    audioPlayer.play().catch(error => {
+      console.error('Error al reproducir el audio:', error);
+    });
+  }
+};
 export default App;
