@@ -74,10 +74,9 @@ function ChatRoom() {
   const query = messagesRef.orderBy('createdAt').limit(25);
 
   const [messages] = useCollectionData(query, { idField: 'id' });
-
   const [formValue, setFormValue] = useState('');
 
-
+  // Function to handle sending a message
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -88,34 +87,65 @@ function ChatRoom() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL
-    })
+    });
 
     setFormValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
 
     await sendBackend(formValue);
-  }
+  };
 
-  return (<>
-    <main>
+  // Speech recognition function
+  const startRecognition = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-      {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'es-MX';  // Set the language for recognition
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
 
-      <span ref={dummy}></span>
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        console.log("Recognized speech: ", transcript);
+        setFormValue(transcript);  // Set the recognized text into the input field
+      };
 
-    </main>
+      recognition.onend = () => {
+        console.log('Speech recognition has ended');
+      };
 
-    <form onSubmit={sendMessage}>
+      recognition.onerror = (event) => {
+        console.error('Error occurred during recognition: ', event.error);
+      };
 
-      <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+      recognition.start();  // Start speech recognition
+    } else {
+      console.log('Speech Recognition is not supported in your browser.');
+    }
+  };
 
-      <button type="submit" disabled={!formValue}>🕊️</button>
+  return (
+    <>
+      <main>
+        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        <span ref={dummy}></span>
+      </main>
 
-    </form>
+      <form onSubmit={sendMessage}>
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+        <button type="submit" disabled={!formValue}>🕊️</button>
+
+        {/* Button to trigger speech recognition */}
+        <button type="button" onClick={startRecognition}>🎤</button>
+      </form>
 
       <audio id="audioPlayer" controls></audio>
-  </>)
+    </>
+  );
 }
+
+
 
 
 function ChatMessage(props) {
