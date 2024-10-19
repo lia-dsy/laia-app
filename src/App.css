@@ -64,7 +64,8 @@ main::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
 
-form {
+/* Estilo para formulario de la vista de chat */
+.send-message-form {
   height: 10vh;
   position: fixed;
   bottom: 0;
@@ -75,12 +76,13 @@ form {
   font-size: 1.5rem;
 }
 
+/* Estilo base de botón de formulario */
 form button {
-  width: 20%;
+  width: 15%;
   background-color: rgb(56, 56, 143);
 }
 
-
+/* Estilo base de entrada de texto */
 input {
   line-height: 1.5;
   width: 100%;
@@ -92,6 +94,7 @@ input {
   padding: 0 10px;
 }
 
+/* Estilo base de botón */
 button {
   background-color: #282c34; /* Green */
   border: none;
@@ -104,6 +107,7 @@ button {
   font-size: 1.25rem;
 }
 
+/* Estilo base de botón deshabilitado */
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -118,10 +122,9 @@ button:disabled {
   background: white;       /* Fondo del botón */
   max-width: 400px;         /* Ancho máximo del botón */
   padding: 10px 20px;          /* Espaciado interno (padding) del botón */
-  margin: 0 auto;             /* Centra el botón en la página */
+  margin: 10px auto;         /* Margen superior e inferior y Centra el botón en la página*/
   border: 1px solid #ccc;      /* Bordes opcionales */
   border-radius: 5px;          /* Bordes redondeados */
-  cursor: pointer;             /* Cambiar cursor a puntero */
   font-size: 22px;             /* Tamaño de fuente del texto */
 }
 
@@ -136,7 +139,23 @@ button:disabled {
 }
 
 
+.orText{
+  color: white;
+  text-align: center;
+  margin: 10px auto;         /* Margen superior e inferior y Centra el botón en la página*/
+}
 
+.logIn-input{
+  justify-content: center;     /* Centra el contenido horizontalmente */
+  color: #282c34;           /* Color del texto */ 
+  background: white;       /* Fondo del botón */
+  max-width: 400px;         /* Ancho máximo del botón */
+  padding: 10px 20px;          /* Espaciado interno (padding) del botón */
+  border: 1px solid #ccc;      /* Bordes opcionales */
+  border-radius: 5px;          /* Bordes redondeados */
+  font-size: 22px;             /* Tamaño de fuente del texto */
+  margin: 10px auto;         /* Margen superior e inferior y Centra el botón en la página*/
+}
 
 ul, li {
   text-align: left;
@@ -181,6 +200,7 @@ img {
   margin: 2px 5px;
 } 
 
+/* Control de audio */
 audio {
   display:none;
 }

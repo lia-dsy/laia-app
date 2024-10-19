@@ -62,26 +62,41 @@ function App() {
 
 function SignIn() {
 
+  const [userValue, setUserValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
+  }
+
+  const logIn = () => {
+    console.log('Log in');
+    console.log('User: ', userValue);
+    console.log('Password: ', passwordValue);
+
+    setUserValue('');
+    setPasswordValue('');
   }
 
   return (
     <>
       <button className="sign-in" onClick={signInWithGoogle}>
         <img 
-          src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png" 
-          className="google-icon"
-        />
+          src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
+          alt='Google icons created by Freepik - Flaticon'
+          className="google-icon"/>
         <span>Sign in with Google</span>
       </button>
 
-      <br/>
+      <h1 className="orText">OR</h1>
 
-      <button className="sign-in">
-        Log in
-      </button>
+      <form onSubmit={logIn}>
+        <input className='logIn-input' value={userValue} onChange={(e) => setUserValue(e.target.value)} placeholder="User" />
+        <input className='logIn-input' type='password' value={passwordValue} onChange={(e) => setPasswordValue(e.target.value)} placeholder="Password" />
+        <button className="sign-in" onClick={logIn} disabled={!userValue || !passwordValue}> Log in </button>
+      </form>
+
     </>
   )
 
@@ -106,9 +121,11 @@ function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { userID, userPhotoURL } = auth.currentUser;
+    // const { userID, userPhotoURL } = auth.currentUser;
+    const { uid, photoURL } = auth.currentUser;
 
-    await addMessageToChat(formValue, userID, userPhotoURL); // Add user's message to the chat
+    // await addMessageToChat(formValue, userID, userPhotoURL); // Add user's message to the chat
+    await addMessageToChat(formValue, uid, photoURL); // Add user's message to the chat
     
     setFormValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
@@ -160,8 +177,8 @@ function ChatRoom() {
         <span ref={dummy}></span>
       </main>
 
-      <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+      <form className="send-message-form" onSubmit={sendMessage}>
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Say something nice" />
         <button type="submit" disabled={!formValue}>🕊️</button>
 
         {/* Button to trigger speech recognition */}
