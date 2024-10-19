@@ -1,3 +1,4 @@
+/*Extern libraries import*/
 import React, { useRef, useState } from 'react';
 import './App.css';
 
@@ -9,7 +10,17 @@ import 'firebase/analytics';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-import axios from 'axios';
+/* Local modules import */
+
+// Import audio play module
+import * as audioPlay from "./modules/audioPlay.js";
+
+// Import voice recognition module
+// import * as voiceRecognition from "./modules/voiceRecognition.js";
+
+// Import backend requests module
+import * as backendRequests from "./modules/backendRequests.js";
+
 
 firebase.initializeApp({
   // your config
@@ -24,8 +35,11 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const analytics = firebase.analytics();
-const backendPath = 'http://localhost:5000/api/text-to-speech';
+// const analytics = firebase.analytics();
+const laiaPhotoURL = 'https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg';
+const laiaID = 'laia';
+const audioFormat = 'audio/mp3';
+
 
 function App() {
 
@@ -80,19 +94,20 @@ function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = auth.currentUser;
+    const { userID, userPhotoURL } = auth.currentUser;
 
-    await messagesRef.add({
-      text: formValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL
-    });
-
+    await addMessageToChat(formValue, userID, userPhotoURL); // Add user's message to the chat
+    
     setFormValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
+    
+    const response = await backendRequests.sendBackend(formValue);
+    
+    await addMessageToChat(response.text, laiaID, laiaPhotoURL); // Add Laia's response to the chat
 
-    await sendBackend(formValue);
+    const audioBlob = audioPlay.convertBase64ToBlob(response.audio, audioFormat);
+    const audio = audioPlay.convertBlobToUrl(audioBlob);
+    audioPlay.playAudio(audio);
   };
 
   // Speech recognition function
@@ -107,12 +122,12 @@ function ChatRoom() {
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        console.log("Recognized speech: ", transcript);
+        // console.log("Recognized speech: ", transcript);
         setFormValue(transcript);  // Set the recognized text into the input field
       };
 
       recognition.onend = () => {
-        console.log('Speech recognition has ended');
+        // console.log('Speech recognition has ended');
       };
 
       recognition.onerror = (event) => {
@@ -120,8 +135,9 @@ function ChatRoom() {
       };
 
       recognition.start();  // Start speech recognition
+
     } else {
-      console.log('Speech Recognition is not supported in your browser.');
+      console.error('Speech Recognition is not supported in your browser.');
     }
   };
 
@@ -145,8 +161,16 @@ function ChatRoom() {
   );
 }
 
-
-
+async function addMessageToChat(messageText, uid, photoURL) {
+  const messagesRef = firestore.collection('messages');
+  
+  await messagesRef.add({
+    text: messageText,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    uid,
+    photoURL
+  });
+}
 
 function ChatMessage(props) {
   const { text, uid, photoURL } = props.message;
@@ -161,45 +185,4 @@ function ChatMessage(props) {
   </>)
 }
 
-async function sendBackend(msj){
-  try {
-    const response = await axios.post(backendPath, {
-      input_text: msj});
-      const data = await response.data;
-      const audioB64 = data.audio_file;
-
-    const audioBlob = base64ToBlob(audioB64, 'audio/mp3');
-    const audio = URL.createObjectURL(audioBlob); // Crea una URL para el blob de audio
-
-    console.log('Audio URL:', data.audio_path);
-    console.log('Audio File:', audio);
-    console.log('Texto:', data.input_text);
-
-    playAudio(audio);
-
-  } catch (error) {
-    console.error('Error al enviar la petición:', error);
-  }
-}
-
-function base64ToBlob(base64, mime) {
-  const byteCharacters = atob(base64);
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-  const byteArray = new Uint8Array(byteNumbers);
-  return new Blob([byteArray], { type: mime });
-};
-
-const playAudio = (file) => {
-  if (file) {
-    console.log('Reproduciendo\n' + file);
-    const audioPlayer = document.getElementById('audioPlayer');
-    audioPlayer.src = file;
-    audioPlayer.play().catch(error => {
-      console.error('Error al reproducir el audio:', error);
-    });
-  }
-};
 export default App;
