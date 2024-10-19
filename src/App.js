@@ -63,6 +63,7 @@ function App() {
 function SignIn() {
 
   const [userValue, setUserValue] = useState('');
+  const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
   const signInWithGoogle = () => {
@@ -71,11 +72,13 @@ function SignIn() {
   }
 
   const logIn = () => {
-    console.log('Log in');
-    console.log('User: ', userValue);
-    console.log('Password: ', passwordValue);
+    console.info('Log in');
+    console.info('User: ', userValue);
+    console.info('Email: ', emailValue);
+    console.info('Password: ', passwordValue);
 
     setUserValue('');
+    setEmailValue('');
     setPasswordValue('');
   }
 
@@ -93,6 +96,7 @@ function SignIn() {
 
       <form onSubmit={logIn}>
         <input className='logIn-input' value={userValue} onChange={(e) => setUserValue(e.target.value)} placeholder="User" />
+        <input className='logIn-input' value={emailValue} onChange={(e) => setEmailValue(e.target.value)} placeholder="Email" />
         <input className='logIn-input' type='password' value={passwordValue} onChange={(e) => setPasswordValue(e.target.value)} placeholder="Password" />
         <button className="sign-in" onClick={logIn} disabled={!userValue || !passwordValue}> Log in </button>
       </form>
