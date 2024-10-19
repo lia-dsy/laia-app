@@ -69,7 +69,19 @@ function SignIn() {
 
   return (
     <>
-      <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
+      <button className="sign-in" onClick={signInWithGoogle}>
+        <img 
+          src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png" 
+          className="google-icon"
+        />
+        <span>Sign in with Google</span>
+      </button>
+
+      <br/>
+
+      <button className="sign-in">
+        Log in
+      </button>
     </>
   )
 

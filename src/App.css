@@ -11,7 +11,7 @@ body {
 .App {
   /* display: flex; */
   grid-area: 'navbar';
-   justify-content: flex-start;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   max-width: 728px;
@@ -111,10 +111,28 @@ button:disabled {
 
 
 .sign-in {
-  color: #282c34;
-  background: white;
-  max-width: 400px;
-  margin: 0 auto;
+  display: flex;               /* Flexbox para alinear ícono y texto */
+  align-items: center;         /* Centra verticalmente el ícono y el texto */
+  justify-content: center;     /* Centra el contenido horizontalmente */
+  color: #282c34;           /* Color del texto */ 
+  background: white;       /* Fondo del botón */
+  max-width: 400px;         /* Ancho máximo del botón */
+  padding: 10px 20px;          /* Espaciado interno (padding) del botón */
+  margin: 0 auto;             /* Centra el botón en la página */
+  border: 1px solid #ccc;      /* Bordes opcionales */
+  border-radius: 5px;          /* Bordes redondeados */
+  cursor: pointer;             /* Cambiar cursor a puntero */
+  font-size: 22px;             /* Tamaño de fuente del texto */
+}
+
+.google-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.sign-in span {
+  line-height: 30px;           /* Alinea el texto verticalmente con el ícono */
 }
 
 
