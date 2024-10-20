@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { auth, firestore } from '../firebaseConfig';
+import { auth, firestore, serverTimestamp } from '../firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import './ChatRoom.css';
@@ -114,7 +114,7 @@ async function addMessageToChat(messageText, uid, photoURL) {
     const messagesRef = firestore.collection('messages');
     await messagesRef.add({
       text: messageText,
-      createdAt: firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
       uid,
       photoURL
     });
