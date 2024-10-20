@@ -14,12 +14,12 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 // Import audio play module
 import * as audioPlay from "./modules/audioPlay.js";
-
 // Import voice recognition module
 // import * as voiceRecognition from "./modules/voiceRecognition.js";
-
 // Import backend requests module
 import * as backendRequests from "./modules/backendRequests.js";
+// Import backend requests module
+import * as mediaConverter from "./modules/mediaConverter.js";
 
 
 firebase.initializeApp({
@@ -46,17 +46,26 @@ function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <div className="App">
-      <header>
-        <h1>LAIA</h1>
-        <SignOut />
-      </header>
+    <>
+    {/* Probando para mostrar avatar */}
+      {/* {user ? (
+        <div className="Avatar">
+          <ShowAvatar />
+        </div>
+        ) : null} */}
 
-      <section>
-        {user ? <ChatRoom /> : <SignIn />}
-      </section>
+      <div className="App">
+        <header>
+          <h1>LAIA</h1>
+          <SignOut />
+        </header>
 
-    </div>
+        <section>
+          {user ? <ChatRoom /> : <SignIn />}
+        </section>
+
+      </div>
+    </>
   );
 }
 
@@ -98,7 +107,7 @@ function SignIn() {
         <input className='logIn-input' value={userValue} onChange={(e) => setUserValue(e.target.value)} placeholder="User" />
         <input className='logIn-input' value={emailValue} onChange={(e) => setEmailValue(e.target.value)} placeholder="Email" />
         <input className='logIn-input' type='password' value={passwordValue} onChange={(e) => setPasswordValue(e.target.value)} placeholder="Password" />
-        <button className="sign-in" onClick={logIn} disabled={!userValue || !passwordValue}> Log in </button>
+        <button className="sign-in" onClick={logIn} disabled={!userValue || !emailValue || !passwordValue}> Log in </button>
       </form>
 
     </>
@@ -138,9 +147,9 @@ function ChatRoom() {
     
     await addMessageToChat(response.text, laiaID, laiaPhotoURL); // Add Laia's response to the chat
 
-    const audioBlob = audioPlay.convertBase64ToBlob(response.audio, audioFormat);
-    const audio = audioPlay.convertBlobToUrl(audioBlob);
-    audioPlay.playAudio(audio);
+    const audioBlob = mediaConverter.convertBase64ToBlob(response.audio, audioFormat);
+    const audioUrl = mediaConverter.getObjectUrl(audioBlob);
+    audioPlay.playAudio(audioUrl);
   };
 
   // Speech recognition function
@@ -194,6 +203,28 @@ function ChatRoom() {
   );
 }
 
+function ChatMessage(props) {
+  const { text, uid, photoURL } = props.message;
+
+  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
+
+  return (<>
+    <div className={`message ${messageClass}`}>
+      <img className='message-img' src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
+      <p>{text}</p>
+    </div>
+  </>)
+}
+
+/* Probando para mostrar avatar */
+// function ShowAvatar() {
+//   return(
+//     <>
+//       <img src={laiaPhotoURL} alt='Avatar' />
+//     </>
+//   )
+// }
+
 async function addMessageToChat(messageText, uid, photoURL) {
   const messagesRef = firestore.collection('messages');
   
@@ -203,19 +234,6 @@ async function addMessageToChat(messageText, uid, photoURL) {
     uid,
     photoURL
   });
-}
-
-function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message;
-
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
-
-  return (<>
-    <div className={`message ${messageClass}`}>
-      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
-      <p>{text}</p>
-    </div>
-  </>)
 }
 
 export default App;
