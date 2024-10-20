@@ -1,10 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  display: "grid";
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: 
-  "navbar navbar"
-  "sidebar main"
-  "sidebar footer";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('Images/catBG.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
   /* background-color: #282c34; */
 }
 

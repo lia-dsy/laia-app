@@ -20,7 +20,9 @@ import * as audioPlay from "./modules/audioPlay.js";
 import * as backendRequests from "./modules/backendRequests.js";
 // Import backend requests module
 import * as mediaConverter from "./modules/mediaConverter.js";
-
+//Components
+import Login from './Components/Login/Login.js';
+import ChatRoom from './Components/Chatroom/ChatRoom.js';
 
 firebase.initializeApp({
   // your config
@@ -54,16 +56,22 @@ function App() {
         </div>
         ) : null} */}
 
-      <div className="App">
-        <header>
-          <h1>LAIA</h1>
-          <SignOut />
-        </header>
+      <div>
+        {
+          !user ? (
+            <Login />
+          ) : (
+            <div className='App'>
+              <header>
+                <h1>LAIA</h1>
+                <SignOut />
+              </header>
 
-        <section>
-          {user ? <ChatRoom /> : <SignIn />}
-        </section>
-
+            <section>
+              <ChatRoom />
+        </section>       
+      </div>
+          )}
       </div>
     </>
   );
@@ -122,99 +130,99 @@ function SignOut() {
 }
 
 
-function ChatRoom() {
-  const dummy = useRef();
-  const messagesRef = firestore.collection('messages');
-  const query = messagesRef.orderBy('createdAt').limit(25);
+// function ChatRoom() {
+//   const dummy = useRef();
+//   const messagesRef = firestore.collection('messages');
+//   const query = messagesRef.orderBy('createdAt').limit(25);
 
-  const [messages] = useCollectionData(query, { idField: 'id' });
-  const [formValue, setFormValue] = useState('');
+//   const [messages] = useCollectionData(query, { idField: 'id' });
+//   const [formValue, setFormValue] = useState('');
 
-  // Function to handle sending a message
-  const sendMessage = async (e) => {
-    e.preventDefault();
+//   // Function to handle sending a message
+//   const sendMessage = async (e) => {
+//     e.preventDefault();
 
-    // const { userID, userPhotoURL } = auth.currentUser;
-    const { uid, photoURL } = auth.currentUser;
+//     // const { userID, userPhotoURL } = auth.currentUser;
+//     const { uid, photoURL } = auth.currentUser;
 
-    // await addMessageToChat(formValue, userID, userPhotoURL); // Add user's message to the chat
-    await addMessageToChat(formValue, uid, photoURL); // Add user's message to the chat
+//     // await addMessageToChat(formValue, userID, userPhotoURL); // Add user's message to the chat
+//     await addMessageToChat(formValue, uid, photoURL); // Add user's message to the chat
     
-    setFormValue('');
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
+//     setFormValue('');
+//     dummy.current.scrollIntoView({ behavior: 'smooth' });
     
-    const response = await backendRequests.sendBackend(formValue);
+//     const response = await backendRequests.sendBackend(formValue);
     
-    await addMessageToChat(response.text, laiaID, laiaPhotoURL); // Add Laia's response to the chat
+//     await addMessageToChat(response.text, laiaID, laiaPhotoURL); // Add Laia's response to the chat
 
-    const audioBlob = mediaConverter.convertBase64ToBlob(response.audio, audioFormat);
-    const audioUrl = mediaConverter.getObjectUrl(audioBlob);
-    audioPlay.playAudio(audioUrl);
-  };
+//     const audioBlob = mediaConverter.convertBase64ToBlob(response.audio, audioFormat);
+//     const audioUrl = mediaConverter.getObjectUrl(audioBlob);
+//     audioPlay.playAudio(audioUrl);
+//   };
 
-  // Speech recognition function
-  const startRecognition = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+//   // Speech recognition function
+//   const startRecognition = () => {
+//     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'es-MX';  // Set the language for recognition
-      recognition.interimResults = false;
-      recognition.maxAlternatives = 1;
+//     if (SpeechRecognition) {
+//       const recognition = new SpeechRecognition();
+//       recognition.lang = 'es-MX';  // Set the language for recognition
+//       recognition.interimResults = false;
+//       recognition.maxAlternatives = 1;
 
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        // console.log("Recognized speech: ", transcript);
-        setFormValue(transcript);  // Set the recognized text into the input field
-      };
+//       recognition.onresult = (event) => {
+//         const transcript = event.results[0][0].transcript;
+//         // console.log("Recognized speech: ", transcript);
+//         setFormValue(transcript);  // Set the recognized text into the input field
+//       };
 
-      recognition.onend = () => {
-        // console.log('Speech recognition has ended');
-      };
+//       recognition.onend = () => {
+//         // console.log('Speech recognition has ended');
+//       };
 
-      recognition.onerror = (event) => {
-        console.error('Error occurred during recognition: ', event.error);
-      };
+//       recognition.onerror = (event) => {
+//         console.error('Error occurred during recognition: ', event.error);
+//       };
 
-      recognition.start();  // Start speech recognition
+//       recognition.start();  // Start speech recognition
 
-    } else {
-      console.error('Speech Recognition is not supported in your browser.');
-    }
-  };
+//     } else {
+//       console.error('Speech Recognition is not supported in your browser.');
+//     }
+//   };
 
-  return (
-    <>
-      <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-        <span ref={dummy}></span>
-      </main>
+//   return (
+//     <>
+//       <main>
+//         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+//         <span ref={dummy}></span>
+//       </main>
 
-      <form className="send-message-form" onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Say something nice" />
-        <button type="submit" disabled={!formValue}>🕊️</button>
+//       <form className="send-message-form" onSubmit={sendMessage}>
+//         <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Say something nice" />
+//         <button type="submit" disabled={!formValue}>🕊️</button>
 
-        {/* Button to trigger speech recognition */}
-        <button type="button" onClick={startRecognition}>🎤</button>
-      </form>
+//         {/* Button to trigger speech recognition */}
+//         <button type="button" onClick={startRecognition}>🎤</button>
+//       </form>
 
-      <audio id="audioPlayer" controls></audio>
-    </>
-  );
-}
+//       <audio id="audioPlayer" controls></audio>
+//     </>
+//   );
+// }
 
-function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message;
+// function ChatMessage(props) {
+//   const { text, uid, photoURL } = props.message;
 
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
+//   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
-  return (<>
-    <div className={`message ${messageClass}`}>
-      <img className='message-img' src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
-      <p>{text}</p>
-    </div>
-  </>)
-}
+//   return (<>
+//     <div className={`message ${messageClass}`}>
+//       <img className='message-img' src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
+//       <p>{text}</p>
+//     </div>
+//   </>)
+// }
 
 /* Probando para mostrar avatar */
 // function ShowAvatar() {
@@ -225,15 +233,15 @@ function ChatMessage(props) {
 //   )
 // }
 
-async function addMessageToChat(messageText, uid, photoURL) {
-  const messagesRef = firestore.collection('messages');
+// async function addMessageToChat(messageText, uid, photoURL) {
+//   const messagesRef = firestore.collection('messages');
   
-  await messagesRef.add({
-    text: messageText,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    uid,
-    photoURL
-  });
-}
+//   await messagesRef.add({
+//     text: messageText,
+//     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+//     uid,
+//     photoURL
+//   });
+// }
 
 export default App;
