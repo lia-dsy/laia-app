@@ -2,10 +2,11 @@
 import React, { useRef, useState } from 'react';
 import './App.css';
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/analytics';
+// import firebase, {getApps, initializeApp, firebaseConfig} from 'firebase/app';
+// import 'firebase/firestore';
+// import 'firebase/auth';
+// import 'firebase/analytics';
+import { auth } from './Components/firebaseConfig';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -24,19 +25,24 @@ import * as mediaConverter from "./modules/mediaConverter.js";
 import Login from './Components/Login/Login.js';
 import ChatRoom from './Components/Chatroom/ChatRoom.js';
 
-firebase.initializeApp({
-  // your config
-  apiKey: "AIzaSyC4tLPFncq5lZSOtYrCS0AvgpoCp79wKww",
-  authDomain: "laia-71c3c.firebaseapp.com",
-  projectId: "laia-71c3c",
-  storageBucket: "laia-71c3c.appspot.com",
-  messagingSenderId: "372171171545",
-  appId: "1:372171171545:web:856b208a2627b2c73cc0c8",
-  measurementId: "G-V632GRTLCB"
-})
+// firebase.initializeApp({
+//   // your config
+//   apiKey: "AIzaSyC4tLPFncq5lZSOtYrCS0AvgpoCp79wKww",
+//   authDomain: "laia-71c3c.firebaseapp.com",
+//   projectId: "laia-71c3c",
+//   storageBucket: "laia-71c3c.appspot.com",
+//   messagingSenderId: "372171171545",
+//   appId: "1:372171171545:web:856b208a2627b2c73cc0c8",
+//   measurementId: "G-V632GRTLCB"
+// })
 
-const auth = firebase.auth();
-const firestore = firebase.firestore();
+// // Initialize Firebase
+// if (!getApps().length) {
+//   initializeApp(firebaseConfig);
+// }
+
+// const auth = firebase.auth();
+// const firestore = firebase.firestore();
 // const analytics = firebase.analytics();
 const laiaPhotoURL = 'https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg';
 const laiaID = 'laia';
@@ -63,7 +69,7 @@ function App() {
           ) : (
             <div className='App'>
               <header>
-                <h1>LAIA</h1>
+                {/* <h1>LAIA</h1> */}
                 <SignOut />
               </header>
 
@@ -77,51 +83,51 @@ function App() {
   );
 }
 
-function SignIn() {
+// function SignIn() {
 
-  const [userValue, setUserValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
+//   const [userValue, setUserValue] = useState('');
+//   const [emailValue, setEmailValue] = useState('');
+//   const [passwordValue, setPasswordValue] = useState('');
 
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  }
+//   const signInWithGoogle = () => {
+//     const provider = new firebase.auth.GoogleAuthProvider();
+//     auth.signInWithPopup(provider);
+//   }
 
-  const logIn = () => {
-    console.info('Log in');
-    console.info('User: ', userValue);
-    console.info('Email: ', emailValue);
-    console.info('Password: ', passwordValue);
+//   const logIn = () => {
+//     console.info('Log in');
+//     console.info('User: ', userValue);
+//     console.info('Email: ', emailValue);
+//     console.info('Password: ', passwordValue);
 
-    setUserValue('');
-    setEmailValue('');
-    setPasswordValue('');
-  }
+//     setUserValue('');
+//     setEmailValue('');
+//     setPasswordValue('');
+//   }
 
-  return (
-    <>
-      <button className="sign-in" onClick={signInWithGoogle}>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
-          alt='Google icons created by Freepik - Flaticon'
-          className="google-icon"/>
-        <span>Sign in with Google</span>
-      </button>
+//   return (
+//     <>
+//       <button className="sign-in" onClick={signInWithGoogle}>
+//         <img 
+//           src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
+//           alt='Google icons created by Freepik - Flaticon'
+//           className="google-icon"/>
+//         <span>Sign in with Google</span>
+//       </button>
 
-      <h1 className="orText">OR</h1>
+//       <h1 className="orText">OR</h1>
 
-      <form onSubmit={logIn}>
-        <input className='logIn-input' value={userValue} onChange={(e) => setUserValue(e.target.value)} placeholder="User" />
-        <input className='logIn-input' value={emailValue} onChange={(e) => setEmailValue(e.target.value)} placeholder="Email" />
-        <input className='logIn-input' type='password' value={passwordValue} onChange={(e) => setPasswordValue(e.target.value)} placeholder="Password" />
-        <button className="sign-in" onClick={logIn} disabled={!userValue || !emailValue || !passwordValue}> Log in </button>
-      </form>
+//       <form onSubmit={logIn}>
+//         <input className='logIn-input' value={userValue} onChange={(e) => setUserValue(e.target.value)} placeholder="User" />
+//         <input className='logIn-input' value={emailValue} onChange={(e) => setEmailValue(e.target.value)} placeholder="Email" />
+//         <input className='logIn-input' type='password' value={passwordValue} onChange={(e) => setPasswordValue(e.target.value)} placeholder="Password" />
+//         <button className="sign-in" onClick={logIn} disabled={!userValue || !emailValue || !passwordValue}> Log in </button>
+//       </form>
 
-    </>
-  )
+//     </>
+//   )
 
-}
+// }
 
 function SignOut() {
   return auth.currentUser && (

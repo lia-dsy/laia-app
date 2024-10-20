@@ -1,10 +1,8 @@
 import React, { useState, useRef } from "react";
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
-import 'firebase/analytics';
+import { auth, firestore } from '../firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import './ChatRoom.css';
 /* Local modules import */
 
 // Import audio play module
@@ -16,23 +14,11 @@ import * as backendRequests from "../../modules/backendRequests.js";
 // Import backend requests module
 import * as mediaConverter from "../../modules/mediaConverter.js";
 
-firebase.initializeApp({
-    // your config
-    apiKey: "AIzaSyC4tLPFncq5lZSOtYrCS0AvgpoCp79wKww",
-    authDomain: "laia-71c3c.firebaseapp.com",
-    projectId: "laia-71c3c",
-    storageBucket: "laia-71c3c.appspot.com",
-    messagingSenderId: "372171171545",
-    appId: "1:372171171545:web:856b208a2627b2c73cc0c8",
-    measurementId: "G-V632GRTLCB"
-  })
-  
-  const auth = firebase.auth();
-  const firestore = firebase.firestore();
-  // const analytics = firebase.analytics();
-  const laiaPhotoURL = 'https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg';
-  const laiaID = 'laia';
-  const audioFormat = 'audio/mp3';
+import './ChatRoom.css';
+
+const laiaPhotoURL = 'https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg';
+const laiaID = 'laia';
+const audioFormat = 'audio/mp3';
 
 function ChatRoom() {
     const dummy = useRef();
@@ -94,28 +80,24 @@ function ChatRoom() {
         console.error('Speech Recognition is not supported in your browser.');
       }
     };
-  
-    return (
-      <>
-        <main>
-          {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-          <span ref={dummy}></span>
-        </main>
-  
-        <form className="send-message-form" onSubmit={sendMessage}>
-          <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Say something nice" />
-          <button type="submit" disabled={!formValue}>🕊️</button>
-  
-          {/* Button to trigger speech recognition */}
-          <button type="button" onClick={startRecognition}>🎤</button>
-        </form>
-  
-        <audio id="audioPlayer" controls></audio>
-      </>
-    );
-  }
 
-  function ChatMessage(props) {
+ return (
+    <div className="wrappChat">
+      <main>
+        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        <span ref={dummy}></span>
+      </main>
+      <form className="send-message-form" onSubmit={sendMessage}>
+        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Say something nice" />
+        <button type="submit" disabled={!formValue}>🕊️</button>
+        <button type="button" onClick={startRecognition}>🎤</button>
+      </form>
+      <audio id="audioPlayer" controls></audio>
+    </div>
+  );
+}
+
+function ChatMessage(props) {
     const { text, uid, photoURL } = props.message;
   
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
@@ -128,16 +110,14 @@ function ChatRoom() {
     </>)
   }
 
-  async function addMessageToChat(messageText, uid, photoURL) {
+async function addMessageToChat(messageText, uid, photoURL) {
     const messagesRef = firestore.collection('messages');
-    
     await messagesRef.add({
       text: messageText,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL
     });
   }
 
   export default ChatRoom;
-//   export { ChatRoom, ChatMessage, addMessageToChat };

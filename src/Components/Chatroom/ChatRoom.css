@@ -1,0 +1,164 @@
+.ChatRoom {
+     /* display: flex; */
+  grid-area: 'navbar';
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.ChatRoom header {
+    background-color: #181717;
+    height: 10vh;
+    min-height: 50px;
+    color: white;
+    position: fixed;
+    width: 100%;
+    max-width: 728px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 99;
+    padding: 10px;
+    box-sizing:   border-box;
+  }
+  
+  .ChatRoom section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: rgb(40, 37, 53);
+  }
+
+  main {
+    padding: 10px;
+    height: 50vh;
+    margin: 10vh 0 10vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  main::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  
+  main::-webkit-scrollbar-track {
+    background: #1e1e24;
+  }
+  
+  main::-webkit-scrollbar-thumb {
+    background: #6649b8;
+  }
+
+ .wrappChat {
+    backdrop-filter: blur(10px);
+    background: transparent;
+}
+
+  /* Estilo para formulario de la vista de chat */
+.send-message-form {
+    height: 10vh;
+    position: fixed;
+    background: transparent;
+    bottom: 0;
+    width: 100%;
+    max-width: 728px;
+    display: flex;
+    font-size: 1.5rem;
+  }
+
+  /* Estilo base de botón de formulario */
+form button {
+    width: 15%;
+    background: transparent;
+  }
+
+  /* Estilo base de entrada de texto */
+input {
+    line-height: 1.5;
+    width: 100%;
+    font-size: 1.5rem;
+    background: transparent;
+    color: white;
+    outline: none;
+    border: none;
+    padding: 0 10px;
+  }
+  
+
+/* Estilo base de botón */
+button {
+    background-color: #282c34; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1.25rem;
+  }
+  
+  /* Estilo base de botón deshabilitado */
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .orText{
+    color: white;
+    text-align: center;
+    margin: 10px auto;         /* Margen superior e inferior y Centra el botón en la página*/
+  }
+  
+  ul, li {
+    text-align: left;
+    list-style: none;
+  }
+  
+  p {
+    max-width: 500px;
+    margin-bottom: 12px;
+    line-height: 24px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    position: relative;
+    color: white;
+    text-align: justify;
+  }
+  
+  .message {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .sent {
+    flex-direction: row-reverse;
+  }
+  
+  .sent p {
+    color: white;
+    background: #0b93f6;
+    align-self: flex-end;
+  }
+  .received p {
+    background: #e5e5ea;
+    color: black;
+  }
+  
+  img {
+    width: 10%;
+    height: 90%;
+    border-radius: 50%;
+    margin: 2px 5px;
+  } 
+  
+  /* Control de audio */
+  audio {
+    display:none;
+  }
