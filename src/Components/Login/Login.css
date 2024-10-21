@@ -69,9 +69,17 @@
 
 .wrapper .remember-forgot{
     display: flex;
+    align-items: center;
     justify-content: space-between;
     font-size: 14.5px;
-    margin: -15px 0 15px;
+    gap: 10px;
+    margin: 15px 0 15px;
+}
+
+.remember-forgot label{
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .remember-forgot label input{
@@ -88,15 +96,23 @@
     text-decoration: underline;
 }
 
-.register-link p a{
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
+.register-link p{
+    display: flex;
+    align-items: center; /* Center vertically */
+    gap: 5px; 
+    margin: 0;
 }
 
-.register-link p a:hover{
-    text-decoration: underline;
-}
+.register-link a {
+    color: #007bff; /* Customize the color of the link */
+    text-decoration: none; /* Remove underline from the link */
+    font-weight: bold; /* Make the link text bold */
+  }
+  
+
+.register-link a:hover {
+    text-decoration: underline; /* Add underline on hover for better visibility */
+  }
 
 .google-icon {
     width: 25px; /* Set the desired width */

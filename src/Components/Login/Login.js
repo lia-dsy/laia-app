@@ -39,7 +39,7 @@ const Login = () =>{
   return (
     <div className='wrapper'>
       <form onSubmit={logIn}>
-        <h1>Login</h1>
+        <h1>Ingresar</h1>
         <div className="input-box">
           <input type="text" placeholder="Email" value={emailValue} onChange={(e) => setEmailValue(e.target.value)} required />
           <Icon name='user' className='icon'/>
@@ -50,11 +50,11 @@ const Login = () =>{
         </div>
         <div className="remember-forgot">
           <label>
-            <input type="checkbox" /> Remember me
+            <input type="checkbox" />Recordar
           </label>
-          <a href="#">Forgot password?</a>
+          <a href="#">Contraseña Olvidada</a>
         </div>
-        <button className="sign-in" type="submit" disabled={!emailValue || !passwordValue} >Login</button>
+        <button className="sign-in" type="submit" disabled={!emailValue || !passwordValue} >Ingresar</button>
         <button className="sign-in" onClick={signInWithGoogle}>
             <img
               src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
@@ -63,7 +63,7 @@ const Login = () =>{
             />
             <span>Ingresa con Google</span>
         </button>
-        <div className="regiser-link">
+        <div className="register-link">
           <p>No tienes cuenta?</p>
           <a href="#">Registrarse</a>
         </div>
