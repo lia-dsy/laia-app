@@ -45,10 +45,11 @@ const startRecording = async () => {
   mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm; codecs=opus' });
 
   mediaRecorderRef.current.ondataavailable = async (event) => {
-      if (event.data.size > 0) {
+    if (event.data.size > 0) {
           const audioBlob = event.data;
+          const channelCount = await getAudioChannelCount(audioBlob);
           const audioBase64 = await convertBlobToBase64(audioBlob);
-          await transcribeAudio(audioBase64);
+          await transcribeAudio(audioBase64, channelCount);
       }
   };
 
@@ -61,6 +62,25 @@ const startRecording = async () => {
 };
 
 
+//Get the count of channels in the audio
+const getAudioChannelCount = async (audioBlob) => {
+  setIsRecording(true);
+  
+  // Crear un AudioContext
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  
+  // Convertir el Blob a un ArrayBuffer
+  const arrayBuffer = await audioBlob.arrayBuffer();
+  
+  // Decodificar el ArrayBuffer a un AudioBuffer
+  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+  
+  // Obtener el número de canales
+  const channelCount = audioBuffer.numberOfChannels;
+  console.log("Número de canales de audio soportados:", channelCount);
+  
+  return channelCount;
+};
 
 // Function to stop recording audio (optional, if you want a way to stop manually)
 const stopRecording = () => {
@@ -81,7 +101,7 @@ const convertBlobToBase64 = (blob) => {
 };
 
 // Function to transcribe audio using Google STT API
-const transcribeAudio = async (audioBase64) => {
+const transcribeAudio = async (audioBase64, channelCount) => {
   const API_KEY = 'AIzaSyB7Oglp_JzYQ54tK8UhGnSb5WVeuvsPILU'; // Replace with your valid API key
   try {
       const response = await fetch(`https://speech.googleapis.com/v1/speech:recognize?key=${API_KEY}`, {
@@ -94,7 +114,7 @@ const transcribeAudio = async (audioBase64) => {
                   encoding: 'WEBM_OPUS', // Ensure this matches your audio format
                   sampleRateHertz: 48000, // Match the sample rate for WebM/Opus
                   languageCode: 'es-MX',
-                  audioChannelCount: 2, // Set the audio channel count to match the actual audio
+                  audioChannelCount: channelCount, // Set the audio channel count to match the actual audio
                   enableSeparateRecognitionPerChannel: false // Disable separate recognition per channel
               },
               audio: {
