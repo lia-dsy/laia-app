@@ -42,6 +42,8 @@
  .wrappChat {
     backdrop-filter: blur(10px);
     background: transparent;
+    /* height: 70%;  Altura del chat */
+    min-width: 600px;  /* Ancho del chat */
 }
 
   /* Estilo para formulario de la vista de chat */
