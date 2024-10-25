@@ -15,7 +15,7 @@ body {
   background: url('Images/catBG.jpg') no-repeat;
   background-size: cover;
   background-position: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   /* background-color: #282c34; */
 }
 
