@@ -65,7 +65,7 @@
 
   /* Estilo base de botón de formulario */
 form button {
-    width: 20%;
+    width: 10%;
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center content horizontally */
     align-items: center; /* Center content vertically */

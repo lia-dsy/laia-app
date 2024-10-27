@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const backendPath = 'http://localhost:5000/api/text-to-speech';
+const backendPath = 'http://127.0.0.1:5000/api/text-to-speech';
 
 async function sendBackend(msj){
   try {
