@@ -6,6 +6,8 @@ import './ChatRoom.css';
 import * as audioPlay from "../../modules/audioPlay.js";
 import * as backendRequests from "../../modules/backendRequests.js";
 import * as mediaConverter from "../../modules/mediaConverter.js";
+import * as database from "../../modules/database.js";
+
 
 const laiaPhotoURL = 'https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg';
 const laiaID = 'laia';
@@ -13,29 +15,51 @@ const audioFormat = 'audio/mp3';
 
 function ChatRoom() {
     const dummy = useRef();
-    const messagesRef = firestore.collection('messages');
-    const query = messagesRef.orderBy('createdAt').limit(25);
-  
-    const [messages] = useCollectionData(query, { idField: 'id' });
+    const [messages, setMessages] = useState([]);
     const [formValue, setFormValue] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
-  
+
+    // Función para obtener los mensajes de la base de datos
+    const fetchMessages = async () => {
+        const fetchedMessages = await database.getMessages();
+        setMessages(fetchedMessages);
+    };
+    // Obtener mensajes al cargar el componente
+    React.useEffect(() => {
+        fetchMessages();
+    }, []);
+
     // Function to handle sending a message
     const sendMessage = async (e) => {
       e.preventDefault();
 
-      const { uid, photoURL } = auth.currentUser;
-      await addMessageToChat(formValue, uid, photoURL);
+      const text = formValue;
       setFormValue('');
+      
+      const { uid, photoURL } = auth.currentUser;
+      await addMessageToChat(text, uid, photoURL);
       dummy.current.scrollIntoView({ behavior: 'smooth' });
       
-      const response = await backendRequests.sendBackend(formValue);
+      const response = await backendRequests.sendBackend(text);
       await addMessageToChat(response.text, laiaID, laiaPhotoURL);
 
       const audioBlob = mediaConverter.convertBase64ToBlob(response.audio, audioFormat);
       const audioUrl = mediaConverter.getObjectUrl(audioBlob);
       audioPlay.playAudio(audioUrl);
+    };
+
+    // Función para agregar un mensaje al chat
+    const addMessageToChat = async (messageText, uid, photoURL) => {
+        const message = {
+            message: messageText,
+            uid,
+            photoURL
+        };
+        // console.log(message);
+        // Eliminar la clonación del objeto
+        const resp = await database.insertMessage(message)
+        fetchMessages();
     };
 
     // Start recording and auto-stop on silence
@@ -146,7 +170,7 @@ const transcribeAudio = async (audioBase64, channelCount) => {
     return (
         <div className="wrappChat">
             <main>
-                {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+                {messages && messages.map(msg => <ChatMessage key={msg._id} message={msg} />)}
                 <span ref={dummy}></span>
             </main>
             <form className="send-message-form" onSubmit={sendMessage}>
@@ -162,26 +186,26 @@ const transcribeAudio = async (audioBase64, channelCount) => {
 }
 
 function ChatMessage(props) {
-    const { text, uid, photoURL } = props.message;
+    const { message, uid, photoURL } = props.message;
 
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
     return (
         <div className={`message ${messageClass}`}>
             <img className='message-img' src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
-            <p>{text}</p>
+            <p>{message}</p>
         </div>
     );
 }
 
-async function addMessageToChat(messageText, uid, photoURL) {
-    const messagesRef = firestore.collection('messages');
-    await messagesRef.add({
-        text: messageText,
-        createdAt: serverTimestamp(),
-        uid,
-        photoURL
-    });
-}
+// async function addMessageToChat(messageText, uid, photoURL) {
+//     const messagesRef = firestore.collection('messages');
+//     await messagesRef.add({
+//         text: messageText,
+//         createdAt: serverTimestamp(),
+//         uid,
+//         photoURL
+//     });
+// }
 
 export default ChatRoom;
