@@ -2,6 +2,9 @@ import React, { useState, useRef } from "react";
 import { auth, firestore, serverTimestamp } from '../firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import MarkdownIt from 'markdown-it';
+import markdownItAnchor from 'markdown-it-anchor';
+
 import './ChatRoom.css';
 import Loading from '../Loading/Loading.js';
 import * as audioPlay from "../../modules/audioPlay.js";
@@ -192,13 +195,27 @@ const transcribeAudio = async (audioBase64, channelCount) => {
 
 function ChatMessage(props) {
     const { message, uid, photoURL } = props.message;
-
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
+
+    // const md = new MarkdownIt().use(markdownItAnchor)
+    const md = new MarkdownIt({ html: true }).use(markdownItAnchor);
+    
+    // let renderedMessage = md.render(message);
+    let renderedMessage = md.renderInline(message); // Renderiza sin bloques
+
+    // Eliminar etiquetas <p> y <div> que puedan causar saltos de línea
+    renderedMessage = renderedMessage.replace(/\n/g, ' ').replace(/<\/?(p|div)>/g, '');
+
+    // Reemplazar etiquetas <strong> por <b>
+    renderedMessage = renderedMessage.replace(/<\/?strong>/g, (match) => match === '<strong>' ? '<b>' : '</b>');
+
+    console.log(renderedMessage);
 
     return (
         <div className={`message ${messageClass}`}>
             <img className='message-img' src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
-            <p>{message}</p>
+            {/* <p>{message}</p> */}
+            <p className="message-content" dangerouslySetInnerHTML={{ __html: renderedMessage }}></p>
         </div>
     );
 }
