@@ -28,7 +28,7 @@ function setRandomColors() {
   document.documentElement.style.setProperty('--color-bigotes', getRandomColor());
 }
 
-document.addEventListener('DOMContentLoaded', setRandomColors);
+// document.addEventListener('DOMContentLoaded', setRandomColors);
 
 function Loading(){
     return (<>
