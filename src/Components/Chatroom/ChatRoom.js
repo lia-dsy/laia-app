@@ -3,6 +3,7 @@ import { auth, firestore, serverTimestamp } from '../firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import './ChatRoom.css';
+import Loading from '../Loading/Loading.js';
 import * as audioPlay from "../../modules/audioPlay.js";
 import * as backendRequests from "../../modules/backendRequests.js";
 import * as mediaConverter from "../../modules/mediaConverter.js";
@@ -19,6 +20,7 @@ function ChatRoom() {
     const [formValue, setFormValue] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
+    const [sending, setSending] = useState('');
 
     // Función para obtener los mensajes de la base de datos
     const fetchMessages = async () => {
@@ -40,13 +42,16 @@ function ChatRoom() {
       const { uid, photoURL } = auth.currentUser;
       await addMessageToChat(text, uid, photoURL);
       dummy.current.scrollIntoView({ behavior: 'smooth' });
+
+      setSending(true);
       
       const response = await backendRequests.sendBackend(text);
       await addMessageToChat(response.text, laiaID, laiaPhotoURL);
-
+      
       const audioBlob = mediaConverter.convertBase64ToBlob(response.audio, audioFormat);
       const audioUrl = mediaConverter.getObjectUrl(audioBlob);
       audioPlay.playAudio(audioUrl);
+      setSending(false);
     };
 
     // Función para agregar un mensaje al chat
@@ -56,9 +61,7 @@ function ChatRoom() {
             uid,
             photoURL
         };
-        // console.log(message);
-        // Eliminar la clonación del objeto
-        const resp = await database.insertMessage(message)
+        await database.insertMessage(message)
         fetchMessages();
     };
 
@@ -167,21 +170,24 @@ const transcribeAudio = async (audioBase64, channelCount) => {
 
 
 
-    return (
+    return ( <>
         <div className="wrappChat">
             <main>
+                {/* {sending ? <Loading /> : null} */}
+                <Loading />
                 {messages && messages.map(msg => <ChatMessage key={msg._id} message={msg} />)}
                 <span ref={dummy}></span>
             </main>
             <form className="send-message-form" onSubmit={sendMessage}>
-                <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Escribe el mensaje" />
+                <input disabled={sending} value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Escribe el mensaje" />
                 <button type="submit" disabled={!formValue}>🕊️</button>
-                <button type="button" onClick={isRecording ? stopRecording : startRecording}>
+                <button disabled={sending} type="button" onClick={isRecording ? stopRecording : startRecording}>
                     {isRecording ? 'Stop Recording' : '🎤'}
                 </button>
             </form>
             <audio id="audioPlayer" controls></audio>
         </div>
+        </>
     );
 }
 
