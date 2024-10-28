@@ -173,8 +173,7 @@ const transcribeAudio = async (audioBase64, channelCount) => {
     return ( <>
         <div className="wrappChat">
             <main>
-                {/* {sending ? <Loading /> : null} */}
-                <Loading />
+                {sending ? <Loading /> : null}
                 {messages && messages.map(msg => <ChatMessage key={msg._id} message={msg} />)}
                 <span ref={dummy}></span>
             </main>
