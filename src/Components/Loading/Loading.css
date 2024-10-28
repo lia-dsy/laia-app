@@ -1,10 +1,14 @@
 :root {
+  --balancing-animation: swing 7s cubic-bezier(0.5, 0, 0.5, 1) infinite both;
   --background-view: rgba(0,0,0,0.5);
   --grosor-cuerda: 5px;
   --grosor-boca: 3px;
   --grosor-bigotes: 2px;
+  
   --color-cuerda: #29B6F6;
   --color-ovillo: radial-gradient(circle at top left, #6A1B9A 0%, #3949AB 40%, #29B6F6 65%, #4DB6AC 100%);
+  --color-pata-superior-izquierda: #C5C1C1;
+  --color-pata-superior-derecha: #C5C1C1;
   --color-patas-superiores: linear-gradient(to right, #F5F5F5, #DEDCDC);
   --color-cuerpo: radial-gradient(circle at 20% 20%, #F0EFEF, #B3AEAE);
   --color-patas-inferiores: linear-gradient(to right, #F5F5F5, #DEDCDC);
@@ -55,7 +59,7 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   width: 5rem;
   height: 5rem;
   transform-origin: center -20rem;
-  animation: swing 7s cubic-bezier(0.5, 0, 0.5, 1) infinite both;
+  animation: var(--balancing-animation);
 }
 
 .all:before {
@@ -82,7 +86,7 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--color-pata-superior-derecha);
   top: -1px;
 }
 
@@ -93,7 +97,7 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
 
 .yarn:after {
   right: calc(50% + 7px);
-  background-color: #D5E8F8; /*Color de la para superior izquierda*/
+  background-color: var(--color-pata-superior-izquierda);
 }
 
 .cat-wrap {

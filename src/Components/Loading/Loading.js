@@ -1,5 +1,35 @@
 import './Loading.css';
 
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function setRandomColors() {
+  document.documentElement.style.setProperty('--color-cuerda', getRandomColor());
+  document.documentElement.style.setProperty('--color-ovillo', `radial-gradient(circle at top left, ${getRandomColor()} 0%, ${getRandomColor()} 40%, ${getRandomColor()} 65%, ${getRandomColor()} 100%)`);
+  document.documentElement.style.setProperty('--color-patas-superiores', `linear-gradient(to right, ${getRandomColor()}, ${getRandomColor()})`);
+  document.documentElement.style.setProperty('--color-pata-superior-izquierda', getRandomColor());
+  document.documentElement.style.setProperty('--color-pata-superior-derecha', getRandomColor());
+  document.documentElement.style.setProperty('--color-cuerpo', `radial-gradient(circle at 20% 20%, ${getRandomColor()}, ${getRandomColor()})`);
+  document.documentElement.style.setProperty('--color-patas-inferiores', `linear-gradient(to right, ${getRandomColor()}, ${getRandomColor()})`);
+  document.documentElement.style.setProperty('--color-cola', `linear-gradient(to right, ${getRandomColor()}, ${getRandomColor()})`);
+  document.documentElement.style.setProperty('--color-cabeza', `radial-gradient(circle at 50% 50%, ${getRandomColor()}, ${getRandomColor()} 60%, ${getRandomColor()})`);
+  document.documentElement.style.setProperty('--color-oreja-izquierda-exterior', getRandomColor());
+  document.documentElement.style.setProperty('--color-oreja-izquierda-interior', getRandomColor());
+  document.documentElement.style.setProperty('--color-oreja-derecha', getRandomColor());
+  document.documentElement.style.setProperty('--color-ojos', getRandomColor());
+  document.documentElement.style.setProperty('--color-nariz', getRandomColor());
+  document.documentElement.style.setProperty('--color-boca', getRandomColor());
+  document.documentElement.style.setProperty('--color-bigotes', getRandomColor());
+}
+
+document.addEventListener('DOMContentLoaded', setRandomColors);
+
 function Loading(){
     return (<>
         <div className='loadingView'>
@@ -8,7 +38,6 @@ function Loading(){
         </>
     );
 }
-
 
 /* HTML y CSS obtenido de:
 https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
