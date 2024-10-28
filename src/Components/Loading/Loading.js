@@ -3,7 +3,6 @@ import './Loading.css';
 function Loading(){
     return (<>
         <div className='loadingView'>
-          {/* <div className="loading" /> */}
           {catBalancing()}
         </div>
         </>
