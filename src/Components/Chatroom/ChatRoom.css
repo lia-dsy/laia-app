@@ -1,6 +1,6 @@
 .ChatRoom {
   /* display: flex; */
-  /* grid-area: 'navbar'; */
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   text-align: center;
@@ -56,7 +56,7 @@ main::-webkit-scrollbar-thumb {
   backdrop-filter: blur(10px);
   bottom: 0;
   border-radius: 25px;
-  width: 100%;
+  width: 600px;
   max-width: 728px;
   display: flex;
   font-size: 1.5rem;
