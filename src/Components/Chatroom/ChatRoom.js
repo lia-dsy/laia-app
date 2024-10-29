@@ -5,6 +5,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 // import MarkdownIt from 'markdown-it';
 // import markdownItAnchor from 'markdown-it-anchor';
 import showdown from 'showdown';
+import { marked } from 'marked';
 
 
 import './ChatRoom.css';
@@ -200,41 +201,40 @@ function ChatMessage(props) {
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
     const renderedMessage = convertMarkdownToHtml(message);
-    console.log(`Mensaje renderizado: ${renderedMessage}`);
+    console.log(`Mensaje original ${typeof(message)}: ${message}`);
+    // console.log(`Mensaje renderizado ${typeof(renderedMessage)}: ${renderedMessage}`);
 
     return (
         <div className={`message ${messageClass}`}>
             <img className='message-img' src={photoURL} />
             {/* <p>{message}</p> */}
+            {/* <p>{renderedMessage}</p> */}
             <p className="message-content" dangerouslySetInnerHTML={{ __html: renderedMessage }}/>
+            {/* <p dangerouslySetInnerHTML={{ __html: renderedMessage }}/> */}
         </div>
     );
 }
 
 function convertMarkdownToHtml(markdown) {
-    const converter = new showdown.Converter();
-    // // const md = new MarkdownIt().use(markdownItAnchor)
-    // const md = new MarkdownIt({ html: true }).use(markdownItAnchor);
-    
-    // let renderedMessage = md.render(message);
-    // let renderedMessage = md.renderInline(message); // Renderiza sin bloques
-    let renderedMessage= converter.makeHtml(markdown);
-    console.log(`Mensaje prerenderizado: ${renderedMessage}`);
+    let renderedMessage = marked(markdown);
     
     // Eliminar saltos de linea
-    // renderedMessage = renderedMessage.replace(/\n/g, '\-n')
+    // renderedMessage = renderedMessage.replace(/\n/g, '')
     
     // Eliminar etiquetas <p> que puedan causar saltos de línea
     // renderedMessage = renderedMessage.replace(/<\/?(p)>/g, (match) => match === '<p>' ? '' : '');
     renderedMessage = renderedMessage.replace(/<\/?(p)>/g, '');
+    // renderedMessage = renderedMessage.replace(/<\/?(br)>/g, '');
     
     // Reemplazar etiquetas <strong> por <b>
-    // renderedMessage = renderedMessage.replace(/<\/?strong>/g, (match) => match === '<strong>' ? '<b>' : '</b>');
+    renderedMessage = renderedMessage.replace(/<\/?strong>/g, (match) => match === '<strong>' ? '<b>' : '</b>');
     
     // Eliminar espacios innecesarios alrededor de las etiquetas <b>
-    renderedMessage = renderedMessage.replace(/>\s+</g, '><');
-    // renderedMessage = `<p>${renderedMessage}</p>`;
-    
+    // renderedMessage = renderedMessage.replace(/>\s+</g, '><');
+
+    // Envolver el texto que no se encuentra entre etiquetas en una etiqueta <span>
+    // renderedMessage = renderedMessage.replace(/([^<>]+)(?=<|$)/g, '<span>$1</span>');
+
     return renderedMessage;
 }
 
