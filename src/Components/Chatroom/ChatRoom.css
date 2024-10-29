@@ -40,8 +40,10 @@ main::-webkit-scrollbar-thumb {
 .wrappChat {
   backdrop-filter: blur(10px);
   background: transparent;
-  /* height: 70%;  Altura del chat */
-  min-width: 600px; /* Ancho del chat */
+  margin-top: 0;
+  height: 650px;
+   /* height: 70%; Altura del chat */
+  min-width: 500px; /* Ancho del chat */
 }
 
 /* Estilo para formulario de la vista de chat */

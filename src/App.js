@@ -24,6 +24,7 @@ import * as mediaConverter from "./modules/mediaConverter.js";
 //Components
 import Login from './Components/Login/Login.js';
 import ChatRoom from './Components/Chatroom/ChatRoom.js';
+import AvatarBox from './Components/Avatar/AvatarBox.js';
 
 // firebase.initializeApp({
 //   // your config
@@ -73,9 +74,10 @@ function App() {
                 <SignOut />
               </header>
 
-            <section>
+            {/* <section> */}
               <ChatRoom />
-        </section>       
+              <AvatarBox />
+        {/* </section> */}
       </div>
           )}
       </div>

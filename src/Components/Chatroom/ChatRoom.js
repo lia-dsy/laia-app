@@ -177,12 +177,12 @@ const transcribeAudio = async (audioBase64, channelCount) => {
 
 
     return ( <>
-        <div className="wrappChat">
-            <main>
+        <div>
+            <main className="wrappChat">
                 {sending ? <Loading /> : null}
                 {messages && messages.map(msg => <ChatMessage key={msg._id} message={msg} />)}
                 <span ref={dummy}></span>
-            </main>
+            
             <form className="send-message-form" onSubmit={sendMessage}>
                 <input disabled={sending} value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Escribe el mensaje" />
                 <button type="submit" disabled={!formValue}>🕊️</button>
@@ -191,6 +191,7 @@ const transcribeAudio = async (audioBase64, channelCount) => {
                 </button>
             </form>
             <audio id="audioPlayer" controls></audio>
+            </main>
         </div>
         </>
     );
