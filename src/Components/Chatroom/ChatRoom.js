@@ -215,38 +215,28 @@ function ChatMessage(props) {
 
     const renderedMessage = convertMarkdownToHtml(message);
     console.log(`Mensaje original ${typeof(message)}: ${message}`);
-    // console.log(`Mensaje renderizado ${typeof(renderedMessage)}: ${renderedMessage}`);
+    console.log(`Mensaje renderizado ${typeof(renderedMessage)}: ${renderedMessage}`);
 
     return (
         <div className={`message ${messageClass}`}>
             <img className='message-img' src={photoURL} />
-            {/* <p>{message}</p> */}
-            {/* <p>{renderedMessage}</p> */}
             <p className="message-content" dangerouslySetInnerHTML={{ __html: renderedMessage }}/>
-            {/* <p dangerouslySetInnerHTML={{ __html: renderedMessage }}/> */}
         </div>
     );
 }
 
 function convertMarkdownToHtml(markdown) {
+    // markdown = markdown.replace('```markdown', '');
     let renderedMessage = marked(markdown);
     
-    // Eliminar saltos de linea
-    // renderedMessage = renderedMessage.replace(/\n/g, '')
-    
     // Eliminar etiquetas <p> que puedan causar saltos de línea
-    // renderedMessage = renderedMessage.replace(/<\/?(p)>/g, (match) => match === '<p>' ? '' : '');
     renderedMessage = renderedMessage.replace(/<\/?(p)>/g, '');
-    // renderedMessage = renderedMessage.replace(/<\/?(br)>/g, '');
-    
-    // Reemplazar etiquetas <strong> por <b>
-    renderedMessage = renderedMessage.replace(/<\/?strong>/g, (match) => match === '<strong>' ? '<b>' : '</b>');
-    
-    // Eliminar espacios innecesarios alrededor de las etiquetas <b>
-    // renderedMessage = renderedMessage.replace(/>\s+</g, '><');
 
-    // Envolver el texto que no se encuentra entre etiquetas en una etiqueta <span>
-    // renderedMessage = renderedMessage.replace(/([^<>]+)(?=<|$)/g, '<span>$1</span>');
+    // Eliminar etiquetas <pre> que puedan causar saltos de línea
+    renderedMessage = renderedMessage.replace(/<\/?(pre)>/g, '');
+
+    // Reemplazar todas las etiquetas <code> y sus atributos
+    renderedMessage = renderedMessage.replace(/<code[^>]*>/g, '').replace(/<\/code>/g, '');
 
     return renderedMessage;
 }

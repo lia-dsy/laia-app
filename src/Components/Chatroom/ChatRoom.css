@@ -150,23 +150,15 @@ p {
   white-space: nowrap;
 }
 
-
 .message-content * {
   display: inline !important;
 }
 
 .message-content::before,
-.message-content::after {
-    content: none; /* Remueve cualquier contenido que esté generando espacios */
-}
-
-b::before,
-b::after {
-    content: none; /* Remueve cualquier contenido que esté generando espacios */
-}
-a::before,
-a::after {
-    content: none; /* Remueve cualquier contenido que esté generando espacios */
+.message-content::after,
+.message-content *::before,
+.message-content *::after {
+    content: none !important; /* Remove pseudo-elements */
 }
 
 .sent {
