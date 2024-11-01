@@ -10,6 +10,6 @@ function convertBase64ToBlob(base64, mime) {
   }
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: mime });
-};
+}
 
 export { getObjectUrl, convertBase64ToBlob };

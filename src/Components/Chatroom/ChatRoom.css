@@ -145,7 +145,7 @@ p {
   margin: 0;
 }
 
-.message-content span{
+.message-content span {
   display: inline;
   white-space: nowrap;
 }
@@ -158,7 +158,7 @@ p {
 .message-content::after,
 .message-content *::before,
 .message-content *::after {
-    content: none !important; /* Remove pseudo-elements */
+  content: none !important; /* Remove pseudo-elements */
 }
 
 .sent {

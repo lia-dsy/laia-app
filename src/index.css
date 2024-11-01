@@ -5,7 +5,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   display: flex;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
@@ -13,14 +15,12 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url('Images/catBG.jpg') no-repeat;
+  background: url("Images/catBG.jpg") no-repeat;
   background-size: cover;
   background-position: center;
-  /* Make the bg picture static */
   background-attachment: fixed;
-  /* overflow: hidden; */
-  /* background-color: #282c34; */
 }
+
 /* Allow scrolling only in the chat content */
 main {
   overflow-y: auto;
@@ -30,6 +30,6 @@ main {
   padding-bottom: 8vh; /* Space for send-message-form */
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

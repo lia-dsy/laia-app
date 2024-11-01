@@ -1,26 +1,37 @@
 :root {
   --balancing-animation: swing 7s cubic-bezier(0.5, 0, 0.5, 1) infinite both;
-  --background-view: rgba(0,0,0,0.5);
+  --background-view: rgba(0, 0, 0, 0.5);
   --grosor-cuerda: 5px;
   --grosor-boca: 3px;
   --grosor-bigotes: 2px;
-  
-  --color-cuerda: #29B6F6;
-  --color-ovillo: radial-gradient(circle at top left, #6A1B9A 0%, #3949AB 40%, #29B6F6 65%, #4DB6AC 100%);
-  --color-pata-superior-izquierda: #C5C1C1;
-  --color-pata-superior-derecha: #C5C1C1;
-  --color-patas-superiores: linear-gradient(to right, #F5F5F5, #DEDCDC);
-  --color-cuerpo: radial-gradient(circle at 20% 20%, #F0EFEF, #B3AEAE);
-  --color-patas-inferiores: linear-gradient(to right, #F5F5F5, #DEDCDC);
-  --color-cola: linear-gradient(to right, #F0EFEF, #7A7674);
-  --color-cabeza: radial-gradient(circle at 50% 50%, #F6F5F5, #D0CBCB 60%, #7A7674);
-  --color-oreja-izquierda-exterior: #7A7674;
-  --color-oreja-izquierda-interior: #E3D1D0;
-  --color-oreja-derecha: #7A7674;
-  --color-ojos: #2B2B2B;
-  --color-nariz: #A67673;
-  --color-boca: #7A7674;
-  --color-bigotes: #7A7674;
+
+  --color-cuerda: #29b6f6;
+  --color-ovillo: radial-gradient(
+    circle at top left,
+    #6a1b9a 0%,
+    #3949ab 40%,
+    #29b6f6 65%,
+    #4db6ac 100%
+  );
+  --color-pata-superior-izquierda: #c5c1c1;
+  --color-pata-superior-derecha: #c5c1c1;
+  --color-patas-superiores: linear-gradient(to right, #f5f5f5, #dedcdc);
+  --color-cuerpo: radial-gradient(circle at 20% 20%, #f0efef, #b3aeae);
+  --color-patas-inferiores: linear-gradient(to right, #f5f5f5, #dedcdc);
+  --color-cola: linear-gradient(to right, #f0efef, #7a7674);
+  --color-cabeza: radial-gradient(
+    circle at 50% 50%,
+    #f6f5f5,
+    #d0cbcb 60%,
+    #7a7674
+  );
+  --color-oreja-izquierda-exterior: #7a7674;
+  --color-oreja-izquierda-interior: #e3d1d0;
+  --color-oreja-derecha: #7a7674;
+  --color-ojos: #2b2b2b;
+  --color-nariz: #a67673;
+  --color-boca: #7a7674;
+  --color-bigotes: #7a7674;
 }
 
 .loadingView {
@@ -37,15 +48,18 @@
 /* HTML y CSS obtenido de:
 https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   position: relative;
   animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
   animation-fill-mode: both;
 }
 
-*:before, *:after {
-  content: '';
+*:before,
+*:after {
+  content: "";
   display: block;
 }
 
@@ -82,7 +96,8 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   z-index: 9998;
 }
 
-.yarn:before, .yarn:after {
+.yarn:before,
+.yarn:after {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -93,7 +108,7 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
 
 .yarn:before {
   left: calc(50% + 7px);
-  background-color: lighten(#8B9BD9, 10%);
+  background-color: lighten(#8b9bd9, 10%);
 }
 
 .yarn:after {
@@ -138,7 +153,6 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   background-color: white;
   z-index: -1;
   background-image: var(--color-patas-superiores);
-
 }
 
 .cat-upper .cat-leg:nth-child(1) {
@@ -192,7 +206,8 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   z-index: 1;
 }
 
-.cat-lower .cat-leg, .cat-lower .cat-paw {
+.cat-lower .cat-leg,
+.cat-lower .cat-paw {
   z-index: -1;
   position: absolute;
   height: 20px;
@@ -305,7 +320,7 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   right: 0;
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
-  background-color: lighten(#D7EBFB, 2%);
+  background-color: lighten(#d7ebfb, 2%);
 }
 
 .cat-ear:before {
@@ -314,7 +329,6 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   top: 10px;
   position: absolute;
   background-color: var(--color-oreja-derecha);
-
 }
 
 .cat-eyes {
@@ -325,7 +339,8 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   animation: blink 7s step-end infinite both;
 }
 
-.cat-eyes:before, .cat-eyes:after {
+.cat-eyes:before,
+.cat-eyes:after {
   position: absolute;
   height: 6px;
   width: 6px;
@@ -355,7 +370,8 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   transform: translateZ(10px);
 }
 
-.cat-mouth:before, .cat-mouth:after {
+.cat-mouth:before,
+.cat-mouth:after {
   position: absolute;
   width: 90%;
   height: 100%;
@@ -390,7 +406,8 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
   perspective: 60px;
 }
 
-.cat-whiskers:before, .cat-whiskers:after {
+.cat-whiskers:before,
+.cat-whiskers:after {
   position: absolute;
   height: 100%;
   width: 30%;
@@ -607,10 +624,16 @@ https://speckyboy.com/css-javascript-code-snippets-celebrating-cats */
 }
 
 @keyframes blink {
-  from, to, 10%, 25%, 80% {
+  from,
+  to,
+  10%,
+  25%,
+  80% {
     transform: scaleY(1);
   }
-  8%, 23%, 78% {
+  8%,
+  23%,
+  78% {
     transform: scaleY(0.1);
   }
 }
