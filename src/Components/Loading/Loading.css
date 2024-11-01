@@ -26,10 +26,11 @@
 .loadingView {
   display: flex;
   justify-content: center;
-  height: 91.5%;
+  /* height: 88%; */
+  height: 100%;
   width: 100%;
   background: var(--background-view);
-  position:fixed;
+  position: absolute;
   z-index: 9999;
 }
 

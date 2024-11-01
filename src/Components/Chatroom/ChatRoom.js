@@ -26,12 +26,16 @@ function ChatRoom() {
     const [formValue, setFormValue] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const mediaRecorderRef = useRef(null);
-    const [sending, setSending] = useState('');
+    const [sending, setSending] = useState(false);
+    const [deletableMessages, setDeletableMessages] = useState(false);
 
     // Función para obtener los mensajes de la base de datos
     const fetchMessages = async () => {
         const fetchedMessages = await database.getMessages();
         setMessages(fetchedMessages);
+        if (fetchedMessages.length > 0) {
+            setDeletableMessages(true);
+        }
     };
     // Obtener mensajes al cargar el componente
     React.useEffect(() => {
@@ -70,6 +74,13 @@ function ChatRoom() {
         await database.insertMessage(message)
         fetchMessages();
     };
+
+    // Función para convertir Eliminar mensajes de la base de datos
+    const deleteMessagesFromChat = async () => {
+        setDeletableMessages(false);
+        await database.deleteAllMessages();
+        fetchMessages();
+    }
 
     // Start recording and auto-stop on silence
 const startRecording = async () => {
@@ -179,18 +190,19 @@ const transcribeAudio = async (audioBase64, channelCount) => {
     return ( <>
         <div>
             <main className="wrappChat">
-                {sending ? <Loading /> : null}
+            {sending ? <Loading /> : null}
                 {messages && messages.map(msg => <ChatMessage key={msg._id} message={msg} />)}
                 <span ref={dummy}></span>
                 </main>
             <form className="send-message-form" onSubmit={sendMessage}>
                 <input disabled={sending} value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="Escribe el mensaje" />
-                <button type="submit" disabled={!formValue}>🕊️</button>
-                <button disabled={sending} type="button" onClick={isRecording ? stopRecording : startRecording}>
+                <button type="submit" disabled={!formValue} title={formValue?"Enviar mensaje":"No puedes enviar un mensaje vacío"}>🕊️</button>
+                <button disabled={sending} type="button" onClick={isRecording ? stopRecording : startRecording} title={isRecording?"Detener grabación":"Iniciar grabación"}>
                     {isRecording ? 'Stop Recording' : '🎤'}
                 </button>
+                <button onClick={deleteMessagesFromChat} disabled={((!deletableMessages) || (sending))} title={deletableMessages?"Eliminar conversación":"No puedes eliminar la conversación si no hay mensajes"}>✖️</button>
             </form>
-            <audio id="audioPlayer" controls></audio>
+            <audio id="audioPlayer" controls />
             
         </div>
         </>
