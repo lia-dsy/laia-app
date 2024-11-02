@@ -120,7 +120,7 @@ function ChatRoom() {
 
     // Obtener el número de canales
     const channelCount = audioBuffer.numberOfChannels;
-    console.log("Número de canales de audio soportados:", channelCount);
+    // console.log("Número de canales de audio soportados:", channelCount);
 
     return channelCount;
   };
@@ -145,7 +145,7 @@ function ChatRoom() {
 
   // Function to transcribe audio using Google STT API
   const transcribeAudio = async (audioBase64, channelCount) => {
-    const API_KEY = "AIzaSyB7Oglp_JzYQ54tK8UhGnSb5WVeuvsPILU"; // Replace with your valid API key
+    const API_KEY = process.env.TRANSCRIPTION_KEY; // Replace with your valid API key
     try {
       const response = await fetch(
         `https://speech.googleapis.com/v1/speech:recognize?key=${API_KEY}`,
@@ -242,10 +242,8 @@ function ChatMessage(props) {
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   const renderedMessage = convertMarkdownToHtml(message);
-  console.log(`Mensaje original ${typeof message}: ${message}`);
-  console.log(
-    `Mensaje renderizado ${typeof renderedMessage}: ${renderedMessage}`
-  );
+  // console.log(`Mensaje original ${typeof message}: ${message}`);
+  // console.log(`Mensaje renderizado ${typeof renderedMessage}: ${renderedMessage}`);
 
   return (
     <div className={`message ${messageClass}`}>
