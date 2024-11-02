@@ -5,15 +5,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # To init the project
 First you need clone this repository with the next command:
 
-### ```git clone https://github.com/lia-dsy/laia-app.git```
+``` bash
+git clone https://github.com/lia-dsy/laia-app.git
+```
 
 Then it is necessary to install all the dependencies with
 
-### ```yarn install```
+``` bash
+yarn install
+```
 
 The following is to create the **.env** file in root directory, and write the following variable with its respective value
 
-```TRANSCRIPTION_KEY=key```
+``` bash
+TRANSCRIPTION_KEY=key
+```
 
 
 ## Available Scripts
