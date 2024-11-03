@@ -112,12 +112,6 @@ button:disabled {
   margin: 10px auto; /* Margen superior e inferior y Centra el botón en la página*/
 }
 
-ul,
-li {
-  text-align: left;
-  list-style: none;
-}
-
 p {
   max-width: 500px;
   margin-bottom: 12px;
@@ -151,7 +145,25 @@ p {
 }
 
 .message-content * {
-  display: inline !important;
+  display: inline;
+}
+
+.message-content ul,
+.message-content ol {
+  list-style-position: inside;
+  text-align: justify;
+}
+
+.message-content ul {
+  list-style-type: disc;
+}
+
+.message-content ol {
+  list-style-type: decimal;
+}
+
+.message-content li {
+  display: list-item !important;
 }
 
 .message-content::before,
