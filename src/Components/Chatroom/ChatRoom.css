@@ -152,6 +152,10 @@ p {
 .message-content ol {
   list-style-position: inside;
   text-align: justify;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1;
+  display: inline-block;
 }
 
 .message-content ul {

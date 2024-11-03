@@ -259,16 +259,19 @@ function ChatMessage(props) {
 function convertMarkdownToHtml(markdown) {
   let renderedMessage = marked(markdown);
 
-  // Eliminar etiquetas <p> que puedan causar saltos de línea
-  renderedMessage = renderedMessage.replace(/<\/?(p)>/g, "");
+  // Eliminar etiquetas <p> <hr>
+  renderedMessage = renderedMessage.replace(/<\/?(p|hr)>/g, "");
 
   // Agrega un salto de línea antes de todas las etiquetas <h>
   renderedMessage = renderedMessage.replace(/(<h[1-6]>)/g, '\n$1');
 
-  // Reemplazar todas las etiquetas <code> y sus atributos
+  // Eliminar todas las etiquetas <code> y sus atributos
   renderedMessage = renderedMessage
     .replace(/<code[^>]*>/g, "")
     .replace(/<\/code>/g, "");
+
+  // Eliminar los saltos de línea duplicados
+  renderedMessage = renderedMessage.replace('\n\n', '\n');
 
   return renderedMessage;
 }
