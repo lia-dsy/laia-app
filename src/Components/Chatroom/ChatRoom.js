@@ -189,8 +189,8 @@ function ChatRoom() {
   return (
     <>
       <div>
+        {sending ? <Loading /> : null}
         <main className="wrappChat">
-          {sending ? <Loading /> : null}
           {messages &&
             messages.map((msg) => <ChatMessage key={msg._id} message={msg} />)}
           <span ref={dummy}></span>
