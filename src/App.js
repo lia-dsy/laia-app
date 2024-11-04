@@ -1,5 +1,5 @@
 /*Extern libraries import*/
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { auth } from "./Components/firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,6 +11,7 @@ import AvatarBox from "./Components/Avatar/AvatarBox.js";
 
 function App() {
   const [user] = useAuthState(auth);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false); // Add this state
 
   return (
     <>
@@ -22,8 +23,8 @@ function App() {
             <header>
               <SignOut />
             </header>
-            <ChatRoom />
-            <AvatarBox />
+            <ChatRoom setIsPlayingAudio={setIsPlayingAudio}/>
+            <AvatarBox isPlayingAudio={isPlayingAudio} />
           </div>
         )}
       </div>

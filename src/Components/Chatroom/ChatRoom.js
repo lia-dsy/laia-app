@@ -15,7 +15,7 @@ const laiaPhotoURL =
 const laiaID = "laia";
 const audioFormat = "audio/mp3";
 
-function ChatRoom() {
+function ChatRoom({ setIsPlayingAudio } ) {
   const dummy = useRef();
   const [messages, setMessages] = useState([]);
   const [formValue, setFormValue] = useState("");
@@ -37,6 +37,14 @@ function ChatRoom() {
     fetchMessages();
   }, []);
 
+// Play audio and trigger animation in AvatarBox
+  const playAudioAndTriggerAnimation = (audioUrl) => {
+    const audio = new Audio(audioUrl);
+    audio.play();
+    setIsPlayingAudio(true); // Trigger animation in AvatarBox
+    audio.onended = () => setIsPlayingAudio(false); // Reset animation state when audio ends
+  };
+  
   // Function to handle sending a message
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -58,7 +66,8 @@ function ChatRoom() {
       audioFormat
     );
     const audioUrl = mediaConverter.getObjectUrl(audioBlob);
-    audioPlay.playAudio(audioUrl);
+    // audioPlay.playAudio(audioUrl);
+    playAudioAndTriggerAnimation(audioUrl); // Play audio and trigger animation
     setSending(false);
   };
 

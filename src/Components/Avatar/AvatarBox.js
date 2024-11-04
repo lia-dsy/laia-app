@@ -1,9 +1,17 @@
 import Spline from "@splinetool/react-spline";
+import { useRef, useEffect } from "react";
 
-const AvatarBox = () => {
+const AvatarBox = ({ isPlayingAudio }) => {
+  const splineRef = useRef();
+
+  useEffect(() => {
+    if (isPlayingAudio && splineRef.current) {
+      splineRef.current.emitEvent("play", "AnimationName"); // Replace with actual animation name
+    }
+  }, [isPlayingAudio]);
   return (
     <div style={styles.container}>
-      <Spline scene="https://prod.spline.design/z0nZEnaMBqDvV6YT/scene.splinecode" />
+      <Spline ref={splineRef} scene="https://prod.spline.design/z0nZEnaMBqDvV6YT/scene.splinecode" onLoad={(spline) => (splineRef.current = spline)} />
     </div>
   );
 };
