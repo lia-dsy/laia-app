@@ -8,6 +8,7 @@ import * as audioPlay from "../../modules/audioPlay.js";
 import * as backendRequests from "../../modules/backendRequests.js";
 import * as mediaConverter from "../../modules/mediaConverter.js";
 import * as database from "../../modules/database.js";
+import * as config from "../../config.js";
 
 const laiaPhotoURL =
   "https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg";
@@ -145,7 +146,8 @@ function ChatRoom() {
 
   // Function to transcribe audio using Google STT API
   const transcribeAudio = async (audioBase64, channelCount) => {
-    const API_KEY = process.env.TRANSCRIPTION_KEY; // Replace with your valid API key
+    const API_KEY = config.TRANSCRIPTION_KEY(); // Replace with your valid API key
+    console.log("API_KEY ", API_KEY);
     try {
       const response = await fetch(
         `https://speech.googleapis.com/v1/speech:recognize?key=${API_KEY}`,
