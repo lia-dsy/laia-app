@@ -28,7 +28,7 @@ const Signin = () => {
                 >
                     <Icon name="arrow left" className="icon" />
                 </button>
-                <form>
+                <form onSubmit={signIn}>
                     <h1>Registrarse</h1>
                     <div className="input-box">
                         <input
