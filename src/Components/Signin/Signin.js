@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Signin = () => {
     const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
+    const navigate = useNavigate();
 
     const signIn = (e) => {
         e.preventDefault();
@@ -21,6 +22,12 @@ const Signin = () => {
     return (
         <>
             <div className="wrapper">
+                <button
+                    className="back"
+                    onClick={() => {navigate("/login")}}
+                >
+                    <Icon name="arrow left" className="icon" />
+                </button>
                 <form>
                     <h1>Registrarse</h1>
                     <div className="input-box">

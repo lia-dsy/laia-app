@@ -68,3 +68,8 @@
     background-size: cover;
     background-position: center;
 }
+
+.back {
+    width: 0% !important;
+    height: 100%;
+}
