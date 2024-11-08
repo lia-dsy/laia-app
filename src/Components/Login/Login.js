@@ -5,10 +5,10 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [emailValue, setEmailValue] = useState("");
+    const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
     const navigate = useNavigate();
 
@@ -30,11 +30,11 @@ const Login = () => {
     const logIn = (e) => {
         e.preventDefault();
         console.log("Log in");
-        console.log("Email:", emailValue);
+        console.log("Email:", userValue);
         console.log("Password:", passwordValue);
 
         // Reset form values
-        setEmailValue("");
+        setUserValue("");
         setPasswordValue("");
     };
 
@@ -46,8 +46,8 @@ const Login = () => {
                     <input
                         type="text"
                         placeholder="Email"
-                        value={emailValue}
-                        onChange={(e) => setEmailValue(e.target.value)}
+                        value={userValue}
+                        onChange={(e) => setUserValue(e.target.value)}
                         required
                     />
                     <Icon name="user" className="icon" />
@@ -72,7 +72,7 @@ const Login = () => {
                 <button
                     className="log-in"
                     type="submit"
-                    disabled={!emailValue || !passwordValue}
+                    disabled={!userValue || !passwordValue}
                 >
                     Ingresar
                 </button>
