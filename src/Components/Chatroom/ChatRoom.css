@@ -170,13 +170,6 @@ p {
   display: list-item !important;
 }
 
-.message-content::before,
-.message-content::after,
-.message-content *::before,
-.message-content *::after {
-  content: none !important; /* Remove pseudo-elements */
-}
-
 .sent {
   flex-direction: row-reverse;
 }

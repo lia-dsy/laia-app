@@ -1,35 +1,35 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  display: flex;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: url("Images/catBG.jpg") no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    display: flex;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url("Images/catBG.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 /* Allow scrolling only in the chat content */
 main {
-  overflow-y: auto;
-  height: calc(100vh - 8vh); /* Adjusted to fit available space */
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 8vh; /* Space for send-message-form */
+    overflow-y: auto;
+    height: calc(100vh - 8vh); /* Adjusted to fit available space */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 8vh; /* Space for send-message-form */
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
