@@ -30,7 +30,7 @@ const Login = () => {
     const logIn = (e) => {
         e.preventDefault();
         console.log("Log in");
-        console.log("Email:", userValue);
+        console.log("Usuario:", userValue);
         console.log("Password:", passwordValue);
 
         // Reset form values
@@ -45,7 +45,7 @@ const Login = () => {
                 <div className="input-box">
                     <input
                         type="text"
-                        placeholder="Email"
+                        placeholder="Usuario"
                         value={userValue}
                         onChange={(e) => setUserValue(e.target.value)}
                         required
