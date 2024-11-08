@@ -1,40 +1,45 @@
+*::before,
+*::after {
+    display: none !important;
+}
+
 .App {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px; /* Space between ChatRoom and AvatarBox */
-  padding: 20px;
-  margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px; /* Space between ChatRoom and AvatarBox */
+    padding: 20px;
+    margin-top: 5%;
 }
 
 .App section {
-  display: flex;
-  max-height: 100%;
-  max-width: 100px;
-  gap: 20px; /* Space between ChatRoom and AvatarBox */
+    display: flex;
+    max-height: 100%;
+    max-width: 100px;
+    gap: 20px; /* Space between ChatRoom and AvatarBox */
 }
 
 .ChatRoom,
 .AvatarBox {
-  flex: 1;
-  max-width: 50%; /* Each takes up half the width of the parent container */
-  padding-top: 20px;
+    flex: 1;
+    max-width: 50%; /* Each takes up half the width of the parent container */
+    padding-top: 20px;
 }
 .AvatarBox {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .sign-out {
-  position: fixed;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  color: #fff;
-  background: transparent;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  transition: background-color 0.3s;
+    position: fixed;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    color: #fff;
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
 }
