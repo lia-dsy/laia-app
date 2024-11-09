@@ -1,7 +1,9 @@
+import Default_404 from "../Components/Default_404/Default_404.js";
+
 const DefaultPage = () => {
     return (
         <>
-            <h1>Default</h1>
+            <Default_404 />
         </>
     );
 };
