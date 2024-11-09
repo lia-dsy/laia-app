@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./Signin.css";
 import { Icon } from "semantic-ui-react";
-import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
     const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
-    const navigate = useNavigate();
 
     const signIn = (e) => {
         e.preventDefault();
@@ -22,13 +20,13 @@ const Signin = () => {
     return (
         <>
             <div className="wrapper">
-                <button
-                    className="back"
-                    onClick={() => {navigate("/login")}}
-                >
-                    <Icon name="arrow left" className="icon" />
-                </button>
-                <form onSubmit={signIn}>
+                <h2 className="back">
+                    <a href="/login">
+                        {/* <Icon name="arrow left" className="icon" /> */}
+                        ↩
+                    </a>
+                </h2>
+                <form onSubmit={signIn} className="form-Wrapper">
                     <h1>Registrarse</h1>
                     <div className="input-box">
                         <input
