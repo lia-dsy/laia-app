@@ -100,12 +100,6 @@ button {
   font-size: 1.25rem;
 }
 
-/* Estilo base de botón deshabilitado */
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .orText {
   color: white;
   text-align: center;
@@ -195,3 +189,10 @@ img {
 audio {
   display: none;
 }
+
+/* .message-content::before,
+.message-content::after,
+.message-content *::before,
+.message-content *::after {
+  content: none !important;
+} */
