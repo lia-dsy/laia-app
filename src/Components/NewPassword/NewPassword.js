@@ -1,23 +1,22 @@
 import React, { useState } from "react";
-import "./Recovery.css";
+import "./NewPassword.css";
 import { Icon } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 
-const Recovery = () => {
+const NewPassword = () => {
     const [userValue, setUserValue] = useState("");
     const [emailValue, setEmailValue] = useState("");
     const navigate = useNavigate();
 
     const signIn = (e) => {
         e.preventDefault();
-        console.log("Recovery");
+        console.log("New Password");
         console.log("User:", userValue);
         console.log("Recovery Email:", emailValue);
 
         // Reset form values
         setUserValue("");
         setEmailValue("");
-        navigate("/newpassword");
     };
 
     return (
@@ -64,4 +63,4 @@ const Recovery = () => {
     );
 };
 
-export default Recovery;
+export default NewPassword;

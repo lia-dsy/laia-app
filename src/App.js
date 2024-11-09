@@ -9,6 +9,7 @@ import LoginPage from "./pages/login";
 import ChatPage from "./pages/chat";
 import RecoveryPage from "./pages/recovery";
 import SigninPage from "./pages/signin";
+import NewPasswordPage from "./pages/newPassword";
 import DefaultPage from "./pages/default";
 
 function App() {
@@ -33,6 +34,8 @@ function App() {
                     <Route path="/recovery" element={<RecoveryPage />} />
 
                     <Route path="/signin" element={<SigninPage />} />
+
+                    <Route path="/newpassword" element={<NewPasswordPage />} />
 
                     <Route path="/*" element={<DefaultPage />} />
                 </Routes>
