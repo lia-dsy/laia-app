@@ -1,8 +1,6 @@
 /*Extern libraries import*/
 import React from "react";
 import "./App.css";
-// import { auth } from "./Components/firebaseConfig";
-// import { useAuthState } from "react-firebase-hooks/auth";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./pages/login";
@@ -13,8 +11,6 @@ import NewPasswordPage from "./pages/newPassword";
 import DefaultPage from "./pages/default";
 
 function App() {
-    // const [user] = useAuthState(auth);
-
     return (
         <>
             <div>
