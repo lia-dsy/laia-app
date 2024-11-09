@@ -67,7 +67,7 @@ const Login = () => {
                         <input type="checkbox" />
                         Recordar
                     </label>
-                    <a href="/forgoted">Contraseña Olvidada</a>
+                    <a href="/recovery">Contraseña Olvidada</a>
                 </div>
                 <button
                     className="log-in"

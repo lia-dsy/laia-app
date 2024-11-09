@@ -7,7 +7,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./pages/login";
 import ChatPage from "./pages/chat";
-import ForgotedPage from "./pages/forgoted";
+import RecoveryPage from "./pages/recovery";
 import SigninPage from "./pages/signin";
 import DefaultPage from "./pages/default";
 
@@ -19,14 +19,7 @@ function App() {
             <div>
                 <Routes>
                     <Route path="/" element={<Navigate to="/login" />} />
-                    <Route
-                        path="/login"
-                        element={
-                            <div>
-                                <LoginPage />
-                            </div>
-                        }
-                    />
+                    <Route path="/login" element={<LoginPage />} />
 
                     <Route
                         path="/chat"
@@ -37,7 +30,7 @@ function App() {
                         }
                     />
 
-                    <Route path="/forgoted" element={<ForgotedPage />} />
+                    <Route path="/recovery" element={<RecoveryPage />} />
 
                     <Route path="/signin" element={<SigninPage />} />
 
