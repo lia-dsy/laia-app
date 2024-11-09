@@ -147,7 +147,6 @@ function ChatRoom() {
   // Function to transcribe audio using Google STT API
   const transcribeAudio = async (audioBase64, channelCount) => {
     const API_KEY = config.TRANSCRIPTION_KEY(); // Replace with your valid API key
-    console.log("API_KEY ", API_KEY);
     try {
       const response = await fetch(
         `https://speech.googleapis.com/v1/speech:recognize?key=${API_KEY}`,
