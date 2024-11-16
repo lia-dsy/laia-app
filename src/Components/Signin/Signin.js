@@ -1,29 +1,44 @@
 import React, { useState } from "react";
-import "./Signin.css";
 import { Icon } from "semantic-ui-react";
+import { ToastContainer } from "react-toastify";
+import "./Signin.css";
+import * as toastCotainers from "../toastContainers/toastContainers.js";
+import * as userAdmin from "../../modules/userAdmin";
 
 const Signin = () => {
     const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
 
     const signIn = (e) => {
-        e.preventDefault();
-        console.log("Log in");
-        console.log("User:", userValue);
-        console.log("Password:", passwordValue);
-
-        // Reset form values
+        const user = userValue;
+        const password = passwordValue;
         setUserValue("");
         setPasswordValue("");
+        e.preventDefault();
+        console.log("Log in");
+        // console.log("User:", userValue);
+        // console.log("Password:", passwordValue);
+
+        userAdmin.insertUser(user, password).then((response) => {
+            // Reset form values
+            console.log("Response:", response);
+            if (!response.error) {
+                toastCotainers.success("Usuario registrado correctamente");
+            } else {
+                toastCotainers.error(
+                    `Error al registrar el usuario:\n${response.error}`
+                );
+            }
+        });
     };
 
     return (
         <>
+            <ToastContainer />
             <div className="wrapper">
                 <h2 className="back">
                     <a href="/login">
-                        {/* <Icon name="arrow left" className="icon" /> */}
-                        ↩
+                        {/* <Icon name="arrow left" className="icon" /> */}↩
                     </a>
                 </h2>
                 <form onSubmit={signIn} className="form-Wrapper">

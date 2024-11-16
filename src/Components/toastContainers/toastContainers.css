@@ -1,0 +1,41 @@
+/* toastStyles.css */
+.close-button {
+    background-color: transparent !important; /* Color del botón de cerrar */
+    border: 2px solid #00000040 !important; /* Borde del botón de cerrar */
+    box-shadow: 0 0 10px #00000040 !important; /* Sombra del botón de cerrar */
+    width: 20px !important; /* Ancho del botón de cerrar */
+    height: 20px !important; /* Altura del botón de cerrar */
+    display: flex; /* Usar flexbox para centrar el contenido */
+    align-items: center; /* Alinear verticalmente al centro */
+    justify-content: center; /* Alinear horizontalmente al centro */
+}
+
+.toast-error {
+    background-color: #ec8d87 !important; /* Nuevo color de fondo para errores */
+    color: white !important; /* Color del texto */
+    font-size: 20px !important; /* Tamaño de la fuente */
+}
+
+.toast-progress-bar-error {
+    background: #000000 !important; /* Color de la barra de progreso para errores */
+}
+
+.toast-success {
+    background-color: #73f077 !important; /* Nuevo color de fondo */
+    color: white !important; /* Color del texto */
+    font-size: 20px !important; /* Tamaño de la fuente */
+}
+
+.toast-progress-bar-success {
+    background: #000000 !important; /* Color de la barra de progreso para éxitos */
+}
+
+.toast-alert {
+    background-color: #dff073 !important; /* Nuevo color de fondo */
+    color: white !important; /* Color del texto */
+    font-size: 20px !important; /* Tamaño de la fuente */
+}
+
+.toast-progress-bar-alert {
+    background: #000000 !important; /* Color de la barra de progreso para éxitos */
+}
