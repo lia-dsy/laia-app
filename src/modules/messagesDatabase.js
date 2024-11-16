@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const databasePath = "http://127.0.0.1:5000/api/messages_database";
+const databasePath = "https://127.0.0.1:5000/api/messages_database";
 
 async function insertMessage(message) {
   try {
