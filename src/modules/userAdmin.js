@@ -19,7 +19,11 @@ async function insertUser(user, password) {
 async function validateUser(user, password) {
     try {
         const data = { user, password };
-        const response = await axios.get(userPath, data);
+        const response = await axios.get(userPath, data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         return await response.data;
     } catch (error) {
         return await error.response.data;
@@ -29,7 +33,11 @@ async function validateUser(user, password) {
 async function deleteUser(user) {
     try {
         const data = { user };
-        const response = await axios.delete(userPath, data);
+        const response = await axios.delete(userPath, data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         return await response.data;
     } catch (error) {
         return await error.response.data;
@@ -50,7 +58,11 @@ async function updateUser(user, password, newUser, newPassword, code) {
             delete data.code;
         }
 
-        const response = await axios.put(userPath, data);
+        const response = await axios.put(userPath, data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
         return await response.data;
     } catch (error) {
         return await error.response.data;

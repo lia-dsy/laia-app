@@ -14,6 +14,10 @@ const Login = () => {
     const [passwordValue, setPasswordValue] = useState("");
     const navigate = useNavigate();
 
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     const signInWithGoogle = () => {
         // Make sure firebase is properly initialized and available in your project
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -35,13 +39,33 @@ const Login = () => {
 
     const logIn = (e) => {
         e.preventDefault();
-        console.log("Log in");
-        console.log("Usuario:", userValue);
-        console.log("Password:", passwordValue);
+        const user = userValue;
+        const password = passwordValue;
 
         // Reset form values
         setUserValue("");
         setPasswordValue("");
+
+        console.log("Log in");
+        console.log("Usuario:", user);
+        console.log("Password:", password);
+
+        userAdmin.validateUser(user, password).then((response) => {
+            if (!response.error) {
+                toastCotainers
+                    .success("Sesión iniciada correctamente", 2500)
+                    .then(() => {
+                        delay(3500).then(() => {
+                            navigate("/chat");
+                        });
+                    });
+            } else {
+                toastCotainers.error(
+                    `Error al iniciar sesión:\n${response.error}`,
+                    2500
+                );
+            }
+        });
     };
 
     return (
