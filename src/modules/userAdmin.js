@@ -5,7 +5,7 @@ const userPath = "http://127.0.0.1:5000/api/response_users";
 async function insertUser(user, password) {
     try {
         const data = { user, password };
-        const response = await axios.post(userPath, data, {
+        const response = await axios.post(`${userPath}/new`, data, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -19,7 +19,8 @@ async function insertUser(user, password) {
 async function validateUser(user, password) {
     try {
         const data = { user, password };
-        const response = await axios.get(userPath, data, {
+        console.log("Validating user:", data);
+        const response = await axios.post(`${userPath}/validate`, data, {
             headers: {
                 "Content-Type": "application/json",
             },
