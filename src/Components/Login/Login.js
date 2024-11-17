@@ -22,7 +22,10 @@ const Login = () => {
             .signInWithPopup(provider)
             .then((result) => {
                 toastCotainers
-                    .success("Sesión iniciada correctamente", 2500)
+                    .success(
+                        `Sesión iniciada correctamente\n\nBienvenido\n${result.additionalUserInfo.profile.name}`,
+                        2500
+                    )
                     .then(() => {
                         navigate("/chat");
                     });
