@@ -6,6 +6,8 @@ import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
 import { useNavigate } from "react-router-dom";
+import * as toastCotainers from "../toastContainers/toastContainers.js";
+import * as userAdmin from "../../modules/userAdmin";
 
 const Login = () => {
     const [userValue, setUserValue] = useState("");
@@ -23,7 +25,11 @@ const Login = () => {
                 navigate("/chat");
             })
             .catch((error) => {
-                console.error("Error during Google log-In:", error);
+                // console.error("Error during Google log-In:", error);
+                toastCotainers.error(
+                    `Error al iniciar sesión con Google:\n${error}`,
+                    2500
+                );
             });
     };
 
