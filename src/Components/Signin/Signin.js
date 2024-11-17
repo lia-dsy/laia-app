@@ -1,32 +1,43 @@
 import React, { useState } from "react";
 import { Icon } from "semantic-ui-react";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "./Signin.css";
 import * as toastCotainers from "../toastContainers/toastContainers.js";
 import * as userAdmin from "../../modules/userAdmin";
 
 const Signin = () => {
+    const navigate = useNavigate();
     const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
+
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
     const signIn = (e) => {
         const user = userValue;
         const password = passwordValue;
+
+        // Reset form values
         setUserValue("");
         setPasswordValue("");
+
         e.preventDefault();
-        console.log("Log in");
-        // console.log("User:", userValue);
-        // console.log("Password:", passwordValue);
 
         userAdmin.insertUser(user, password).then((response) => {
-            // Reset form values
-            console.log("Response:", response);
             if (!response.error) {
-                toastCotainers.success("Usuario registrado correctamente");
+                toastCotainers
+                    .success("Usuario registrado correctamente", 2500)
+                    .then(() => {
+                        delay(3500).then(() => {
+                            navigate("/login");
+                        });
+                    });
             } else {
                 toastCotainers.error(
-                    `Error al registrar el usuario:\n${response.error}`
+                    `Error al registrar el usuario:\n${response.error}`,
+                    2500
                 );
             }
         });

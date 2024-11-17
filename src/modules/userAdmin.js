@@ -4,10 +4,7 @@ const userPath = "http://127.0.0.1:5000/api/response_users";
 
 async function insertUser(user, password) {
     try {
-        const data = {
-            user: user,
-            password: password,
-        };
+        const data = { user, password };
         const response = await axios.post(userPath, data, {
             headers: {
                 "Content-Type": "application/json",
@@ -15,8 +12,7 @@ async function insertUser(user, password) {
         });
         return await response.data;
     } catch (error) {
-        console.error("Error al enviar la petición:", error);
-        return false;
+        return await error.response.data;
     }
 }
 
@@ -24,21 +20,19 @@ async function validateUser(user, password) {
     try {
         const data = { user, password };
         const response = await axios.get(userPath, data);
-        return response.data;
+        return await response.data;
     } catch (error) {
-        console.error("Error al enviar la petición:", error);
-        return false;
+        return await error.response.data;
     }
 }
 
 async function deleteUser(user) {
     try {
         const data = { user };
-        await axios.delete(userPath, data);
-        return true;
+        const response = await axios.delete(userPath, data);
+        return await response.data;
     } catch (error) {
-        console.error("Error al enviar la petición:", error);
-        return false;
+        return await error.response.data;
     }
 }
 
@@ -56,11 +50,10 @@ async function updateUser(user, password, newUser, newPassword, code) {
             delete data.code;
         }
 
-        await axios.put(userPath, data);
-        return true;
+        const response = await axios.put(userPath, data);
+        return await response.data;
     } catch (error) {
-        console.error("Error al enviar la petición:", error);
-        return false;
+        return await error.response.data;
     }
 }
 

@@ -9,9 +9,9 @@ const CustomCloseButton = ({ closeToast }) => (
     </button>
 );
 
-async function error(msg) {
+async function error(msg, ms) {
     toast.error(msg, {
-        autoClose: 3000,
+        autoClose: ms,
         className: "toast-error", // Aplica la clase personalizada para errores
         progressClassName: "toast-progress-bar-error", // Aplica la clase personalizada para la barra de progreso de errores
         closeButton: <CustomCloseButton />, // Usa el botón de cierre personalizado
@@ -19,9 +19,9 @@ async function error(msg) {
     });
 }
 
-async function success(msg) {
+async function success(msg, ms) {
     toast.success(msg, {
-        autoClose: 3000,
+        autoClose: ms,
         className: "toast-success", // Aplica la clase personalizada
         progressClassName: "toast-progress-bar-success", // Aplica la clase personalizada para la barra de progreso
         closeButton: <CustomCloseButton />, // Usa el botón de cierre personalizado
@@ -29,9 +29,9 @@ async function success(msg) {
     });
 }
 
-async function alert(msg) {
+async function alert(msg, ms) {
     toast.warn(msg, {
-        autoClose: 3000,
+        autoClose: ms,
         className: "toast-alert", // Aplica la clase personalizada
         progressClassName: "toast-progress-bar-alert", // Aplica la clase personalizada para la barra de progreso
         closeButton: <CustomCloseButton />, // Usa el botón de cierre personalizado
