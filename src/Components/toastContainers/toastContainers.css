@@ -2,6 +2,7 @@
 .close-button {
     background-color: transparent !important; /* Color del botón de cerrar */
     border: 2px solid #ffffff40 !important; /* Borde del botón de cerrar */
+    border-radius: 100%;
     box-shadow: 0 0 10px #ffffff40 !important; /* Sombra del botón de cerrar */
     color: #ffffff;
     width: 20px !important; /* Ancho del botón de cerrar */

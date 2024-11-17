@@ -21,8 +21,11 @@ const Login = () => {
             .auth()
             .signInWithPopup(provider)
             .then((result) => {
-                console.log("Google log-In successful:", result.user);
-                navigate("/chat");
+                toastCotainers
+                    .success("Sesión iniciada correctamente", 2500)
+                    .then(() => {
+                        navigate("/chat");
+                    });
             })
             .catch((error) => {
                 // console.error("Error during Google log-In:", error);
