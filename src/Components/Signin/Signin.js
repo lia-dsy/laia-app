@@ -16,6 +16,7 @@ const Signin = () => {
     }
 
     const signIn = (e) => {
+        e.preventDefault();
         const user = userValue;
         const password = passwordValue;
 
@@ -23,7 +24,6 @@ const Signin = () => {
         setUserValue("");
         setPasswordValue("");
 
-        e.preventDefault();
 
         userAdmin.insertUser(user, password).then((response) => {
             if (!response.error) {
