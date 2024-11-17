@@ -1,3 +1,7 @@
+:root {
+    --toast-width: 300px; /* Ancho del toast */
+}
+
 /* toastStyles.css */
 .close-button {
     background-color: transparent !important; /* Color del botón de cerrar */
@@ -20,6 +24,7 @@
     border: 2px solid #ffffff33;
     box-shadow: 0 0 10px #00000033;
     backdrop-filter: blur(20px);
+    width: var(--toast-width);
 }
 
 .toast-progress-bar-error {
@@ -33,6 +38,7 @@
     border: 2px solid #ffffff33;
     box-shadow: 0 0 10px #00000033;
     backdrop-filter: blur(20px);
+    width: var(--toast-width);
 }
 
 .toast-progress-bar-success {
@@ -46,6 +52,7 @@
     border: 2px solid #ffffff33;
     box-shadow: 0 0 10px #00000033;
     backdrop-filter: blur(20px);
+    width: var(--toast-width);
 }
 
 .toast-progress-bar-alert {

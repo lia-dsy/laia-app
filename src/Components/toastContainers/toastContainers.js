@@ -16,6 +16,7 @@ async function error(msg, ms) {
         progressClassName: "toast-progress-bar-error", // Aplica la clase personalizada para la barra de progreso de errores
         closeButton: <CustomCloseButton />, // Usa el botón de cierre personalizado
         icon: false, // Elimina el icono del toast
+        style: { whiteSpace: "pre-line" },
     });
 }
 
@@ -26,6 +27,7 @@ async function success(msg, ms) {
         progressClassName: "toast-progress-bar-success", // Aplica la clase personalizada para la barra de progreso
         closeButton: <CustomCloseButton />, // Usa el botón de cierre personalizado
         icon: false, // Elimina el icono del toast
+        style: { whiteSpace: "pre-line" },
     });
 }
 
@@ -36,6 +38,7 @@ async function alert(msg, ms) {
         progressClassName: "toast-progress-bar-alert", // Aplica la clase personalizada para la barra de progreso
         closeButton: <CustomCloseButton />, // Usa el botón de cierre personalizado
         icon: false, // Elimina el icono del toast
+        style: { whiteSpace: "pre-line" },
     });
 }
 
