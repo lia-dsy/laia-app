@@ -6,7 +6,6 @@ import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import * as toastCotainers from "../toastContainers/toastContainers.js";
 import * as userAdmin from "../../modules/userAdmin";
 
@@ -53,7 +52,6 @@ const Login = () => {
                 toastCotainers
                     .success("Sesión iniciada correctamente", 2500)
                     .then(() => {
-                        
                         navigate("/chat");
                     });
             } else {
@@ -67,7 +65,6 @@ const Login = () => {
 
     return (
         <>
-            <ToastContainer />
             <div className="wrapper">
                 <form onSubmit={logIn}>
                     <h1>Ingresar</h1>

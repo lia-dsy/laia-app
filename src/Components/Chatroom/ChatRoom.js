@@ -9,6 +9,7 @@ import * as backendRequests from "../../modules/backendRequests.js";
 import * as mediaConverter from "../../modules/mediaConverter.js";
 import * as messagesDatabase from "../../modules/messagesDatabase.js";
 import * as voiceRecognition from "../../modules/voiceRecognition.js";
+import * as toastCotainers from "../toastContainers/toastContainers.js";
 import * as config from "../../config.js";
 
 const laiaPhotoURL =
@@ -27,10 +28,17 @@ function ChatRoom() {
 
     // Función para obtener los mensajes de la base de datos
     const fetchMessages = async () => {
-        const fetchedMessages = await messagesDatabase.getMessages();
-        setMessages(fetchedMessages);
-        if (fetchedMessages.length > 0) {
-            setDeletableMessages(true);
+        try {
+            const fetchedMessages = await messagesDatabase.getMessages();
+            setMessages(fetchedMessages);
+            if (fetchedMessages.length > 0) {
+                setDeletableMessages(true);
+            }
+        } catch (error) {
+            toastCotainers.error(
+                `Error al obtener los mensajes:\n${error}`,
+                2500
+            );
         }
     };
     // Obtener mensajes al cargar el componente
@@ -45,22 +53,26 @@ function ChatRoom() {
         const text = formValue;
         setFormValue("");
 
-        const { uid, photoURL } = auth.currentUser;
-        await addMessageToChat(text, uid, photoURL);
-        dummy.current.scrollIntoView({ behavior: "smooth" });
+        try {
+            const { uid, photoURL } = auth.currentUser;
+            await addMessageToChat(text, uid, photoURL);
+            dummy.current.scrollIntoView({ behavior: "smooth" });
 
-        setSending(true);
+            setSending(true);
 
-        const response = await backendRequests.sendBackend(text);
-        await addMessageToChat(response.text, laiaID, laiaPhotoURL);
+            const response = await backendRequests.sendBackend(text);
+            await addMessageToChat(response.text, laiaID, laiaPhotoURL);
 
-        const audioBlob = mediaConverter.convertBase64ToBlob(
-            response.audio,
-            audioFormat
-        );
-        const audioUrl = mediaConverter.getObjectUrl(audioBlob);
-        audioPlay.playAudio(audioUrl);
-        setSending(false);
+            const audioBlob = mediaConverter.convertBase64ToBlob(
+                response.audio,
+                audioFormat
+            );
+            const audioUrl = mediaConverter.getObjectUrl(audioBlob);
+            audioPlay.playAudio(audioUrl);
+            setSending(false);
+        } catch (error) {
+            toastCotainers.error(`Error al enviar el mensaje`, 2500);
+        }
     };
 
     // Función para agregar un mensaje al chat

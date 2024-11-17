@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Icon } from "semantic-ui-react";
-import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "./Signin.css";
 import * as toastCotainers from "../toastContainers/toastContainers.js";
@@ -24,7 +23,6 @@ const Signin = () => {
         setUserValue("");
         setPasswordValue("");
 
-
         userAdmin.insertUser(user, password).then((response) => {
             if (!response.error) {
                 toastCotainers
@@ -45,7 +43,6 @@ const Signin = () => {
 
     return (
         <>
-            <ToastContainer />
             <div className="wrapper">
                 <h2 className="back">
                     <a href="/login">
