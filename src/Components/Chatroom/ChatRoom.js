@@ -60,7 +60,11 @@ function ChatRoom() {
 
             setSending(true);
 
-            const response = await backendRequests.sendBackend(text);
+            const response = await backendRequests.sendBackend(
+                text,
+                "narakeet",
+                "openai"
+            );
             await addMessageToChat(response.text, laiaID, laiaPhotoURL);
 
             const audioBlob = mediaConverter.convertBase64ToBlob(

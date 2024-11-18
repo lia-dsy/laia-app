@@ -6,9 +6,9 @@ import { Navigate } from "react-router-dom";
 const LoginPage = () => {
     const auth = useAuth();
 
-    if (auth.isAuthenticated) {
-        return <Navigate to="/chat" />;
-    }
+    // if (auth.isAuthenticated) {
+    //     return <Navigate to="/chat" />;
+    // }
     return (
         <>
             <Login />
