@@ -32,21 +32,6 @@ function ChatRoom() {
     const [uid, setUID] = useState("");
     const [photoURL, setPhotoURL] = useState("");
 
-    // Función para obtener los mensajes de la base de datos
-    const fetchMessages = async () => {
-        try {
-            const fetchedMessages = await messagesDatabase.getMessages();
-            setMessages(fetchedMessages);
-            if (fetchedMessages.length > 0) {
-                setDeletableMessages(true);
-            }
-        } catch (error) {
-            toastCotainers.error(
-                `Error al obtener los mensajes:\n${error}`,
-                2500
-            );
-        }
-    };
     // Obtener mensajes al cargar el componente
     React.useEffect(() => {
         if (localAuth.isAuthenticated) {
@@ -62,6 +47,26 @@ function ChatRoom() {
 
         fetchMessages();
     }, []);
+
+    if (!localAuth.isAuthenticated) {
+        return <Navigate to="/login" />;
+    }
+
+    // Función para obtener los mensajes de la base de datos
+    const fetchMessages = async () => {
+        try {
+            const fetchedMessages = await messagesDatabase.getMessages();
+            setMessages(fetchedMessages);
+            if (fetchedMessages.length > 0) {
+                setDeletableMessages(true);
+            }
+        } catch (error) {
+            toastCotainers.error(
+                `Error al obtener los mensajes:\n${error}`,
+                2500
+            );
+        }
+    };
 
     // Function to handle sending a message
     const sendMessage = async (e) => {
@@ -122,10 +127,6 @@ function ChatRoom() {
     const handleStopRecording = () => {
         voiceRecognition.stopRecording(setIsRecording);
     };
-
-    if (!localAuth.isAuthenticated) {
-        return <Navigate to="/login" />;
-    }
 
     return (
         <>
