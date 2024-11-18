@@ -12,12 +12,16 @@ import * as voiceRecognition from "../../modules/voiceRecognition.js";
 import * as toastCotainers from "../toastContainers/toastContainers.js";
 import * as config from "../../config.js";
 
+import { useAuth } from "../Auth/localAuth.js";
+import { Navigate } from "react-router-dom";
+
 const laiaPhotoURL =
     "https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg";
 const laiaID = "laia";
 const audioFormat = "audio/mp3";
 
 function ChatRoom() {
+    const auth = useAuth();
     const dummy = useRef();
     const [messages, setMessages] = useState([]);
     const [formValue, setFormValue] = useState("");
@@ -106,6 +110,10 @@ function ChatRoom() {
     const handleStopRecording = () => {
         voiceRecognition.stopRecording(setIsRecording);
     };
+
+    // if (!auth.isAuthenticated) {
+    //     return <Navigate to="/login" />;
+    // }
 
     return (
         <>

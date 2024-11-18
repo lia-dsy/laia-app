@@ -8,8 +8,11 @@ import "firebase/analytics";
 import { useNavigate } from "react-router-dom";
 import * as toastCotainers from "../toastContainers/toastContainers.js";
 import * as userAdmin from "../../modules/userAdmin";
+import { useAuth } from "../Auth/localAuth.js";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
+    const auth = useAuth();
     const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
     const navigate = useNavigate();
@@ -65,6 +68,9 @@ const Login = () => {
         });
     };
 
+    // if (auth.isAuthenticated) {
+    //     return <Navigate to="/chat" />;
+    // }
     return (
         <>
             <div className="wrapper">
