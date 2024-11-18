@@ -17,6 +17,10 @@ const Login = () => {
     const [passwordValue, setPasswordValue] = useState("");
     const navigate = useNavigate();
 
+    if (auth.isAuthenticated) {
+        return <Navigate to="/chat" />;
+    }
+
     const signInWithGoogle = () => {
         // Make sure firebase is properly initialized and available in your project
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -54,6 +58,9 @@ const Login = () => {
         userAdmin.validateUser(user, password).then((response) => {
             console.log("Response:", response);
             if (!response.error) {
+                if (response.access_token && response.refresh_token) {
+                    auth.saveUser(response);
+                }
                 toastCotainers
                     .success("Sesión iniciada correctamente", 2500)
                     .then(() => {
@@ -68,9 +75,6 @@ const Login = () => {
         });
     };
 
-    // if (auth.isAuthenticated) {
-    //     return <Navigate to="/chat" />;
-    // }
     return (
         <>
             <div className="wrapper">

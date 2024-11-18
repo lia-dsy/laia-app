@@ -21,7 +21,7 @@ const laiaID = "laia";
 const audioFormat = "audio/mp3";
 
 function ChatRoom() {
-    const auth = useAuth();
+    const localAuth = useAuth();
     const dummy = useRef();
     const [messages, setMessages] = useState([]);
     const [formValue, setFormValue] = useState("");
@@ -29,6 +29,8 @@ function ChatRoom() {
     const mediaRecorderRef = useRef(null);
     const [sending, setSending] = useState(false);
     const [deletableMessages, setDeletableMessages] = useState(false);
+    const [uid, setUID] = useState("");
+    const [photoURL, setPhotoURL] = useState("");
 
     // Función para obtener los mensajes de la base de datos
     const fetchMessages = async () => {
@@ -47,6 +49,17 @@ function ChatRoom() {
     };
     // Obtener mensajes al cargar el componente
     React.useEffect(() => {
+        if (localAuth.isAuthenticated) {
+            setUID(localAuth.user.uid);
+            setPhotoURL(
+                `https://avatars.dicebear.com/api/avataaars/${localAuth.user.name}.svg`
+            );
+        } else {
+            const { userID, photo } = auth.currentUser;
+            setUID(userID);
+            setPhotoURL(photo);
+        }
+
         fetchMessages();
     }, []);
 
@@ -58,7 +71,6 @@ function ChatRoom() {
         setFormValue("");
 
         try {
-            const { uid, photoURL } = auth.currentUser;
             await addMessageToChat(text, uid, photoURL);
             dummy.current.scrollIntoView({ behavior: "smooth" });
 
@@ -111,9 +123,9 @@ function ChatRoom() {
         voiceRecognition.stopRecording(setIsRecording);
     };
 
-    // if (!auth.isAuthenticated) {
-    //     return <Navigate to="/login" />;
-    // }
+    if (!localAuth.isAuthenticated) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <>
@@ -179,8 +191,14 @@ function ChatRoom() {
 }
 
 function ChatMessage(props) {
+    const localAuth = useAuth();
     const { message, uid, photoURL } = props.message;
-    const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+    let messageClass = "";
+    if (localAuth.isAuthenticated) {
+        messageClass = uid === localAuth.user.uid ? "sent" : "received";
+    } else {
+        messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+    }
 
     const renderedMessage = convertMarkdownToHtml(message);
     // console.log(`Mensaje original ${typeof message}: ${message}`);

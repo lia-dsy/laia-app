@@ -4,6 +4,8 @@ import AvatarBox from "../Components/Avatar/AvatarBox.js";
 import { auth } from "../Components/Auth/firebaseConfig.js";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../Components/Auth/localAuth.js";
+
 const ChatPage = () => {
     return (
         <>
@@ -17,6 +19,7 @@ const ChatPage = () => {
 };
 
 function SignOut() {
+    const localAuth = useAuth();
     const navigate = useNavigate();
     const handleSignOut = () => {
         const x = auth.signOut();
@@ -26,7 +29,7 @@ function SignOut() {
     };
 
     return (
-        auth.currentUser && (
+        (auth.currentUser || localAuth.isAuthenticated) && (
             <button className="sign-out" onClick={handleSignOut}>
                 Cerrar Sesión
             </button>
