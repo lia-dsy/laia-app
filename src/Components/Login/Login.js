@@ -23,7 +23,7 @@ const Login = () => {
             .then((result) => {
                 toastCotainers
                     .success(
-                        `Sesión iniciada correctamente\n\nBienvenido\n${result.additionalUserInfo.profile.name}`,
+                        `Sesión iniciada correctamente\n\nBienvenido${result.additionalUserInfo.profile.name}`,
                         2500
                     )
                     .then(() => {
@@ -48,12 +48,8 @@ const Login = () => {
         setUserValue("");
         setPasswordValue("");
 
-        console.log("Log in");
-        console.log("Usuario:", user);
-        console.log("Password:", password);
-
         userAdmin.validateUser(user, password).then((response) => {
-            console.log("Response:", response.error);
+            console.log("Response:", response);
             if (!response.error) {
                 toastCotainers
                     .success("Sesión iniciada correctamente", 2500)
@@ -74,6 +70,7 @@ const Login = () => {
             <div className="wrapper">
                 <form onSubmit={logIn}>
                     <h1>Ingresar</h1>
+                    {/* <h1>{auth.isAuthenticated.toString()}</h1> */}
                     <div className="input-box">
                         <input
                             type="text"

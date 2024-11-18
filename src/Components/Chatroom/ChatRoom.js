@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { auth } from "../firebaseConfig";
+import { auth } from "../Auth/firebaseConfig.js";
 import { marked } from "marked";
 
 import "./ChatRoom.css";
