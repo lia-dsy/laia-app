@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { auth } from "../Auth/firebaseConfig.js";
 import { marked } from "marked";
+import { Select } from 'semantic-ui-react'
 
 import "./ChatRoom.css";
 import Loading from "../Loading/Loading.js";
@@ -25,7 +26,16 @@ function ChatRoom() {
     const mediaRecorderRef = useRef(null);
     const [sending, setSending] = useState(false);
     const [deletableMessages, setDeletableMessages] = useState(false);
-
+    const [languageModel, setLanguageModel] = useState("openai");
+    const [voiceModel, setVoiceModel] = useState("narakeet");
+  
+    const handleModelChange = (selectedOption) => {
+        setLanguageModel(selectedOption.toLowerCase());
+    };
+    
+    const handleVoiceChange = (selectedOption) => {
+        setVoiceModel(selectedOption.toLowerCase());
+    };
     // Función para obtener los mensajes de la base de datos
     const fetchMessages = async () => {
         try {
@@ -62,8 +72,8 @@ function ChatRoom() {
 
             const response = await backendRequests.sendBackend(
                 text,
-                "narakeet",
-                "openai"
+                voiceModel,
+                languageModel
             );
             await addMessageToChat(response.text, laiaID, laiaPhotoURL);
 
@@ -106,12 +116,26 @@ function ChatRoom() {
     const handleStopRecording = () => {
         voiceRecognition.stopRecording(setIsRecording);
     };
-
+    const modelOptions = [
+        { key: "openai", value: "openai", text: "OpenAI" },
+        // { key: 'llama2', value: 'LLAMA 2', text: 'LLAMA 2' },
+        // { key: 'gpt3', value: 'GPT-3.5', text: 'GPT-3.5' }
+      ];
+    
+      const voiceOptions = [
+        { key: 'narakeet', value: 'narakeet', text: 'Narakeet' },
+        { key: 'openai', value: 'openai', text: 'OpenAI' },
+        { key: 'none', value: 'none', text: 'None' }
+      ];
     return (
         <>
             <div>
                 {sending ? <Loading /> : null}
                 <main className="wrappChat">
+                    <header className="chat-header">
+                        <Select defaultValue={languageModel} options={modelOptions} onChange={(_, data) => handleModelChange(data.value)}/>
+                        <Select defaultValue={voiceModel} options={voiceOptions} onChange={(_, data) => handleVoiceChange(data.value)}/>
+                    </header>
                     {messages &&
                         messages.map((msg) => (
                             <ChatMessage key={msg._id} message={msg} />
