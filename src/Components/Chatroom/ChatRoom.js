@@ -105,10 +105,10 @@ function ChatRoom() {
             );
             const audioUrl = mediaConverter.getObjectUrl(audioBlob);
             audioPlay.playAudio(audioUrl);
-            setSending(false);
         } catch (error) {
             toastCotainers.error(`Error al enviar el mensaje`, 2500);
         }
+        setSending(false);
     };
 
     // Función para agregar un mensaje al chat
