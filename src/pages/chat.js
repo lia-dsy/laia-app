@@ -9,11 +9,12 @@ import { useAuth } from "../Components/Auth/localAuth.js";
 const ChatPage = () => {
     return (
         <>
-            <header>
+            {/* <header>
                 <SignOut />
             </header>
             <ChatRoom />
-            <AvatarBox />
+            <AvatarBox /> */}
+            <ChatRoom />
         </>
     );
 };
@@ -21,11 +22,18 @@ const ChatPage = () => {
 function SignOut() {
     const localAuth = useAuth();
     const navigate = useNavigate();
-    const handleSignOut = () => {
-        const x = auth.signOut();
-        console.log("Sign out:");
-        console.log(x);
-        navigate("/");
+    const handleSignOut = (e) => {
+        e.preventDefault();
+        if (localAuth.isAuthenticated) {
+            try {
+                
+            } catch (error) {
+                console.error("Error al cerrar sesión:", error);
+            }
+        } else {
+            auth.signOut();
+        }
+        navigate("/login");
     };
 
     return (

@@ -13,7 +13,8 @@ import * as toastCotainers from "../toastContainers/toastContainers.js";
 import * as config from "../../config.js";
 
 import { useAuth } from "../Auth/localAuth.js";
-import { Navigate } from "react-router-dom";
+import AvatarBox from "../Avatar/AvatarBox.js";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const laiaPhotoURL =
     "https://i.pinimg.com/1200x/56/88/c1/5688c185a4a0493e2c1f3d5cab0e5a78.jpg";
@@ -106,7 +107,7 @@ function ChatRoom() {
             const audioUrl = mediaConverter.getObjectUrl(audioBlob);
             audioPlay.playAudio(audioUrl);
         } catch (error) {
-            toastCotainers.error(`Error al enviar el mensaje`, 2500);
+            toastCotainers.error(`Error al enviar o recibir el mensaje`, 2500);
         }
         setSending(false);
     };
@@ -139,8 +140,36 @@ function ChatRoom() {
         voiceRecognition.stopRecording(setIsRecording);
     };
 
+    function SignOut() {
+        const localAuth = useAuth();
+        const navigate = useNavigate();
+        const handleSignOut = (e) => {
+            e.preventDefault();
+            if (localAuth.isAuthenticated) {
+                try {
+                } catch (error) {
+                    console.error("Error al cerrar sesión:", error);
+                }
+            } else {
+                auth.signOut();
+            }
+            navigate("/login");
+        };
+
+        return (
+            (auth.currentUser || localAuth.isAuthenticated) && (
+                <button className="sign-out" onClick={handleSignOut}>
+                    Cerrar Sesión
+                </button>
+            )
+        );
+    }
+
     return (
         <>
+            <header>
+                <SignOut />
+            </header>
             <div>
                 {sending ? <Loading /> : null}
                 <main className="wrappChat">
@@ -198,6 +227,7 @@ function ChatRoom() {
                 </form>
                 <audio id="audioPlayer" controls />
             </div>
+            <AvatarBox />
         </>
     );
 }
