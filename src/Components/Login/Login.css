@@ -98,24 +98,24 @@
 
 .register-link p {
     display: flex;
-    align-items: center; /* Center vertically */
+    align-items: center;
     gap: 5px;
     margin: 0;
 }
 
 .register-link a {
-    color: #b3ff00; /* Customize the color of the link */
-    text-decoration: none; /* Remove underline from the link */
-    font-weight: bold; /* Make the link text bold */
+    color: #b3ff00;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .register-link a:hover {
-    text-decoration: underline; /* Add underline on hover for better visibility */
+    text-decoration: underline;
 }
 
 .google-icon {
-    width: 25px; /* Set the desired width */
-    height: 25px; /* Set the desired height */
+    width: 25px;
+    height: 25px;
     margin: 5px;
 }
 
@@ -129,7 +129,6 @@
 }
 
 .remember-forgot input[type="checkbox"] {
-    /* creating a custom design */
     width: 1.2em;
     height: 1.2em;
     border-radius: 0.15em;
@@ -140,5 +139,5 @@
 }
 
 .remember-forgot input[type="checkbox"]:focus {
-    box-shadow: 0 0 20px #007a7e;
+    box-shadow: 0 0 20px #ffffff;
 }
