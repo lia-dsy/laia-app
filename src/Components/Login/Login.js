@@ -12,12 +12,13 @@ import { useAuth } from "../Auth/localAuth.js";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
-    const auth = useAuth();
+    const localAuth = useAuth();
     const [userValue, setUserValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
+    const [rememberCheck, setRememberCheck] = useState(true);
     const navigate = useNavigate();
 
-    if (auth.isAuthenticated) {
+    if (localAuth.isAuthenticated) {
         return <Navigate to="/chat" />;
     }
 
@@ -30,10 +31,11 @@ const Login = () => {
             .then((result) => {
                 toastCotainers
                     .success(
-                        `Sesión iniciada correctamente\n\nBienvenido${result.additionalUserInfo.profile.name}`,
+                        `Sesión iniciada correctamente\n\nBienvenido ${result.additionalUserInfo.profile.name}`,
                         2500
                     )
                     .then(() => {
+                        localAuth.setIsAuthenticated(true);
                         navigate("/chat");
                     });
             })
@@ -59,10 +61,14 @@ const Login = () => {
             console.log("Response:", response);
             if (!response.error) {
                 if (response.access_token && response.refresh_token) {
-                    auth.saveUser(response);
+                    localAuth.saveUser(response);
                 }
                 toastCotainers
-                    .success("Sesión iniciada correctamente", 2500)
+                    .success(
+                        `Sesión iniciada correctamente\n\nBienvenido ${localAuth.user.user}`,
+                        2500
+                    )
+
                     .then(() => {
                         navigate("/chat");
                     });
@@ -103,7 +109,16 @@ const Login = () => {
                     </div>
                     <div className="remember-forgot">
                         <label>
-                            <input type="checkbox" />
+                            <input
+                                className={`remember-${
+                                    rememberCheck ? "check" : "uncheck"
+                                }`}
+                                type="checkbox"
+                                checked={rememberCheck}
+                                onChange={() =>
+                                    setRememberCheck((prev) => !prev)
+                                }
+                            />
                             Recordar
                         </label>
                         <a href="/recovery">Contraseña Olvidada</a>

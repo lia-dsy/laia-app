@@ -1,20 +1,28 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { headers } from "next/headers";
+import Loading from "../Loading/Loading.js";
 const userPath = "http://127.0.0.1:5000/api/response_users";
 
 const AuthContext = createContext({
     isAuthenticated: false,
+    setIsAuthenticated: () => {},
     user: { uid: "", user: "" },
     getAccessToken: () => {},
     saveUser: () => {},
     getRefreshToken: () => {},
+    signOut: () => {},
 });
 
 function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [accessToken, setAccessToken] = useState(false);
     const [user, setUser] = useState({ uid: "", user: "" });
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        checkAuth();
+    }, []);
 
     async function requestNewAccessToken(refreshToken) {
         try {
@@ -42,18 +50,12 @@ function AuthProvider({ children }) {
 
     async function getUserInfo(accessToken) {
         try {
-            const response = await axios.get(
-                `${userPath}/user`,
-                // { access_token: accessToken },
-                {
-                    headers: {
-                        "Content-type": "application/json",
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-
-            console.log("getUserInfo response:", response.data);
+            const response = await axios.get(`${userPath}/user`, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
             if (response.error) {
                 throw new Error(response.error);
@@ -72,6 +74,10 @@ function AuthProvider({ children }) {
     async function checkAuth() {
         if (accessToken) {
             //El usuario está autenticado
+            const userInfo = await getUserInfo(accessToken);
+            if (userInfo) {
+                saveSessionInfo(userInfo, accessToken, getRefreshToken());
+            }
         } else {
             //El usuario no está autenticado
             const token = getRefreshToken();
@@ -85,11 +91,9 @@ function AuthProvider({ children }) {
                 }
             }
         }
+        setIsLoading(false);
+        return;
     }
-
-    useEffect(() => {
-        checkAuth();
-    }, []);
 
     function saveSessionInfo(userInfo, accessToken, refreshToken) {
         console.log("Guardando información de la sesión:");
@@ -121,6 +125,31 @@ function AuthProvider({ children }) {
         );
     }
 
+    async function signOut() {
+        try {
+            const response = await axios.delete(`${userPath}/signout`, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${getRefreshToken()}`,
+                },
+            });
+
+            console.log("signOut response:", response);
+
+            if (response.error) {
+                throw new Error(response.error);
+            } else {
+                setIsAuthenticated(false);
+                setAccessToken(null);
+                setUser({ uid: "", user: "" });
+                localStorage.removeItem("token");
+            }
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+            return null;
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -129,9 +158,17 @@ function AuthProvider({ children }) {
                 saveUser,
                 getRefreshToken,
                 user,
+                setIsAuthenticated,
+                signOut,
             }}
         >
-            {children}
+            {isLoading ? (
+                <div>
+                    <Loading />
+                </div>
+            ) : (
+                children
+            )}
         </AuthContext.Provider>
     );
 }

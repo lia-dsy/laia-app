@@ -147,6 +147,7 @@ function ChatRoom() {
             e.preventDefault();
             if (localAuth.isAuthenticated) {
                 try {
+                    localAuth.signOut();
                 } catch (error) {
                     console.error("Error al cerrar sesión:", error);
                 }
