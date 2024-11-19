@@ -32,7 +32,7 @@ function AuthProvider({ children }) {
             if (response.error) {
                 throw new Error(response.error);
             } else {
-                return response.access_token;
+                return response.data.new_access_token;
             }
         } catch (error) {
             console.error("Error al solicitar un nuevo token:", error);
@@ -53,10 +53,12 @@ function AuthProvider({ children }) {
                 }
             );
 
+            console.log("getUserInfo response:", response.data);
+
             if (response.error) {
                 throw new Error(response.error);
             } else {
-                return response.access_token;
+                return response.data;
             }
         } catch (error) {
             console.error(
@@ -90,10 +92,12 @@ function AuthProvider({ children }) {
     }, []);
 
     function saveSessionInfo(userInfo, accessToken, refreshToken) {
+        console.log("Guardando información de la sesión:");
+        setIsAuthenticated(true);
         setAccessToken(accessToken);
         localStorage.setItem("token", JSON.stringify(refreshToken));
         setUser(userInfo);
-        setIsAuthenticated(true);
+        console.log(isAuthenticated, accessToken, user);
     }
 
     function getAccessToken() {

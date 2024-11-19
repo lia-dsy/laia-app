@@ -34,18 +34,29 @@ function ChatRoom() {
 
     // Obtener mensajes al cargar el componente
     React.useEffect(() => {
-        if (localAuth.isAuthenticated) {
-            setUID(localAuth.user.uid);
-            setPhotoURL(
-                `https://avatars.dicebear.com/api/avataaars/${localAuth.user.name}.svg`
-            );
-        } else {
-            const { userID, photo } = auth.currentUser;
-            setUID(userID);
-            setPhotoURL(photo);
-        }
+        try {
+            console.log("ChatRoom.js: useEffect", localAuth.isAuthenticated);
+            if (localAuth.isAuthenticated) {
+                setUID(localAuth.user.uid);
+                setPhotoURL(
+                    `https://api.dicebear.com/9.x/pixel-art/svg?seed=${localAuth.user.user}`
+                );
+            } else {
+                const { userID, photo } = auth.currentUser;
+                setUID(userID);
+                setPhotoURL(photo);
+            }
 
-        fetchMessages();
+            fetchMessages();
+        } catch (error) {
+            if (
+                error.TypeError ===
+                "Cannot destructure property 'userID' of 'auth.currentUser' as it is undefined."
+            ) {
+                console.error("No hay usuario de Google autenticado");
+            }
+            console.error(error);
+        }
     }, []);
 
     if (!localAuth.isAuthenticated) {
