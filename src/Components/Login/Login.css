@@ -127,3 +127,18 @@
     background-size: cover;
     background-position: center;
 }
+
+.remember-forgot input[type="checkbox"] {
+    /* creating a custom design */
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 0.15em;
+    margin-right: 0.5em;
+    border: 0.15em solid #aaff01;
+    outline: none;
+    cursor: pointer;
+}
+
+.remember-forgot input[type="checkbox"]:focus {
+    box-shadow: 0 0 20px #007a7e;
+}
