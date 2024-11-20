@@ -124,7 +124,7 @@ function ChatRoom({ setIsTalking }) {
     };
     const modelOptions = [
         { key: "openai", value: "openai", text: "OpenAI" },
-        // { key: 'llama2', value: 'LLAMA 2', text: 'LLAMA 2' },
+        { key: 'ollama', value: 'ollama', text: 'OLLAMA' },
         // { key: 'gpt3', value: 'GPT-3.5', text: 'GPT-3.5' }
       ];
     
