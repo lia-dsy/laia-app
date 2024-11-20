@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { auth } from "../Auth/firebaseConfig.js";
 import { marked } from "marked";
+import { Select } from 'semantic-ui-react'
 
 import "./ChatRoom.css";
 import Loading from "../Loading/Loading.js";
@@ -21,7 +22,7 @@ const laiaPhotoURL =
 const laiaID = "laia";
 const audioFormat = "audio/mp3";
 
-function ChatRoom() {
+function ChatRoom({ setIsTalking }) {
     const localAuth = useAuth();
     const dummy = useRef();
     const [messages, setMessages] = useState([]);
@@ -30,7 +31,16 @@ function ChatRoom() {
     const mediaRecorderRef = useRef(null);
     const [sending, setSending] = useState(false);
     const [deletableMessages, setDeletableMessages] = useState(false);
-    const [uid, setUID] = useState("");
+    const [languageModel, setLanguageModel] = useState("openai");
+    const [voiceModel, setVoiceModel] = useState("narakeet");
+  
+    const handleModelChange = (selectedOption) => {
+        setLanguageModel(selectedOption.toLowerCase());
+    };
+    
+    const handleVoiceChange = (selectedOption) => {
+        setVoiceModel(selectedOption.toLowerCase());
+    };    const [uid, setUID] = useState("");
     const [photoURL, setPhotoURL] = useState("");
 
     // Obtener mensajes al cargar el componente
@@ -94,8 +104,8 @@ function ChatRoom() {
 
             const response = await backendRequests.sendBackend(
                 text,
-                "none", //modelo de voz
-                "ollama" //modelo de ia
+                voiceModel,
+                languageModel
             );
             await addMessageToChat(response.text, laiaID, laiaPhotoURL);
 
@@ -104,7 +114,14 @@ function ChatRoom() {
                 audioFormat
             );
             const audioUrl = mediaConverter.getObjectUrl(audioBlob);
-            audioPlay.playAudio(audioUrl);
+
+            setIsTalking(true);
+
+            // Play audio and stop animation when done
+            audioPlay.playAudio(audioUrl, () => {
+                setIsTalking(false);
+            });
+            setSending(false);
         } catch (error) {
             toastCotainers.error(`Error al enviar o recibir el mensaje`, 2500);
         }
@@ -138,7 +155,12 @@ function ChatRoom() {
     const handleStopRecording = () => {
         voiceRecognition.stopRecording(setIsRecording);
     };
-
+    const modelOptions = [
+        { key: "openai", value: "openai", text: "OpenAI" },
+        { key: 'ollama', value: 'ollama', text: 'OLLAMA' },
+        // { key: 'gpt3', value: 'GPT-3.5', text: 'GPT-3.5' }
+      ];
+    
     function SignOut() {
         const localAuth = useAuth();
         const navigate = useNavigate();
@@ -165,6 +187,11 @@ function ChatRoom() {
         );
     }
 
+      const voiceOptions = [
+        { key: 'narakeet', value: 'narakeet', text: 'Narakeet' },
+        { key: 'openai', value: 'openai', text: 'OpenAI' },
+        { key: 'none', value: 'none', text: 'None' }
+      ];
     return (
         <>
             <header>
@@ -173,6 +200,10 @@ function ChatRoom() {
             <div>
                 {sending ? <Loading /> : null}
                 <main className="wrappChat">
+                    <header className="chat-header">
+                        <Select defaultValue={languageModel} options={modelOptions} onChange={(_, data) => handleModelChange(data.value)}/>
+                        <Select defaultValue={voiceModel} options={voiceOptions} onChange={(_, data) => handleVoiceChange(data.value)}/>
+                    </header>
                     {messages &&
                         messages.map((msg) => (
                             <ChatMessage key={msg._id} message={msg} />
