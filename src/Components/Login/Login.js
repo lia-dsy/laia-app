@@ -31,7 +31,7 @@ const Login = () => {
             .then((result) => {
                 toastCotainers
                     .success(
-                        `Sesión iniciada correctamente\n\nBienvenido ${result.additionalUserInfo.profile.name}`,
+                        `Sesión iniciada correctamente\n\nBienvenido\n${result.additionalUserInfo.profile.name}`,
                         2500
                     )
                     .then(() => {
@@ -57,28 +57,34 @@ const Login = () => {
         setUserValue("");
         setPasswordValue("");
 
-        userAdmin.validateUser(user, password).then((response) => {
-            console.log("Response:", response);
-            if (!response.error) {
-                if (response.access_token && response.refresh_token) {
-                    localAuth.saveUser(response);
+        try {
+            userAdmin.validateUser(user, password).then((response) => {
+                if (!response.error) {
+                    if (response.access_token && response.refresh_token) {
+                        localAuth.saveUser(response);
+                    }
+                    toastCotainers
+                        .success(
+                            `Sesión iniciada correctamente\n\nBienvenido\n${response.user.user}`,
+                            2500
+                        )
+                        .then(() => {
+                            navigate("/chat");
+                        });
+                } else {
+                    console.error(
+                        `Error al iniciar sesión:\n${response.error.response.data.error}`
+                    );
+                    toastCotainers.error(
+                        `Error al iniciar sesión:\n${response.error.response.data.error}`,
+                        3000
+                    );
                 }
-                toastCotainers
-                    .success(
-                        `Sesión iniciada correctamente\n\nBienvenido ${localAuth.user.user}`,
-                        2500
-                    )
-
-                    .then(() => {
-                        navigate("/chat");
-                    });
-            } else {
-                toastCotainers.error(
-                    `Error al iniciar sesión:\n${response.error}`,
-                    3000
-                );
-            }
-        });
+            });
+        } catch (error) {
+            console.error(`Error al iniciar sesión: ${error}`);
+            toastCotainers.error(`Error al iniciar sesión`, 3000);
+        }
     };
 
     return (

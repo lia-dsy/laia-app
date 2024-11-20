@@ -23,22 +23,27 @@ const Signin = () => {
         setUserValue("");
         setPasswordValue("");
 
-        userAdmin.insertUser(user, password).then((response) => {
-            if (!response.error) {
-                toastCotainers
-                    .success("Usuario registrado correctamente", 2500)
-                    .then(() => {
-                        delay(3500).then(() => {
-                            navigate("/login");
+        try {
+            userAdmin.insertUser(user, password).then((response) => {
+                if (!response.error) {
+                    toastCotainers
+                        .success("Usuario registrado correctamente", 2500)
+                        .then(() => {
+                            delay(3500).then(() => {
+                                navigate("/login");
+                            });
                         });
-                    });
-            } else {
-                toastCotainers.error(
-                    `Error al registrar el usuario:\n${response.error}`,
-                    2500
-                );
-            }
-        });
+                } else {
+                    console.error(
+                        `Error al registrar el usuario: ${response.error}`
+                    );
+                    toastCotainers.error(`Error al registrar el usuario`, 3000);
+                }
+            });
+        } catch (error) {
+            console.error(`Error al registrar el usuario: ${error}`);
+            toastCotainers.error(`Error al registrar el usuario`, 3000);
+        }
     };
 
     return (

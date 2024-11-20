@@ -36,7 +36,6 @@ function ChatRoom() {
     // Obtener mensajes al cargar el componente
     React.useEffect(() => {
         try {
-            console.log("ChatRoom.js: useEffect", localAuth.isAuthenticated);
             if (localAuth.isAuthenticated) {
                 setUID(localAuth.user.uid);
                 setPhotoURL(
@@ -95,8 +94,8 @@ function ChatRoom() {
 
             const response = await backendRequests.sendBackend(
                 text,
-                "narakeet",
-                "openai"
+                "none", //modelo de voz
+                "ollama" //modelo de ia
             );
             await addMessageToChat(response.text, laiaID, laiaPhotoURL);
 
@@ -244,8 +243,6 @@ function ChatMessage(props) {
     }
 
     const renderedMessage = convertMarkdownToHtml(message);
-    // console.log(`Mensaje original ${typeof message}: ${message}`);
-    // console.log(`Mensaje renderizado ${typeof renderedMessage}: ${renderedMessage}`);
 
     return (
         <div className={`message ${messageClass}`}>

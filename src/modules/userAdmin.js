@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// const userPath = "https://127.0.0.1:5000/api/response_users";
 const userPath = "http://127.0.0.1:5000/api/response_users";
 
 async function insertUser(user, password) {
@@ -12,14 +13,14 @@ async function insertUser(user, password) {
         });
         return await response.data;
     } catch (error) {
-        return await error.response.data;
+        console.error("Error creating user:", error);
+        return { error: error };
     }
 }
 
 async function validateUser(user, password) {
     try {
         const data = { user, password };
-        console.log("Validating user:", data);
         const response = await axios.post(`${userPath}/validate`, data, {
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +28,8 @@ async function validateUser(user, password) {
         });
         return await response.data;
     } catch (error) {
-        return await error.response.data;
+        console.error("Error validating user:", error);
+        return { error: error };
     }
 }
 
