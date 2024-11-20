@@ -1,6 +1,7 @@
 {
   "name": "laia-app",
   "version": "0.1.0",
+  "proxy": "https://hooks.spline.design",
   "private": true,
   "dependencies": {
     "@splinetool/react-spline": "^4.0.0",

@@ -18,7 +18,7 @@ const laiaPhotoURL =
 const laiaID = "laia";
 const audioFormat = "audio/mp3";
 
-function ChatRoom() {
+function ChatRoom({ setIsTalking }) {
     const dummy = useRef();
     const [messages, setMessages] = useState([]);
     const [formValue, setFormValue] = useState("");
@@ -82,7 +82,13 @@ function ChatRoom() {
                 audioFormat
             );
             const audioUrl = mediaConverter.getObjectUrl(audioBlob);
-            audioPlay.playAudio(audioUrl);
+
+            setIsTalking(true);
+
+            // Play audio and stop animation when done
+            audioPlay.playAudio(audioUrl, () => {
+                setIsTalking(false);
+            });
             setSending(false);
         } catch (error) {
             toastCotainers.error(`Error al enviar el mensaje`, 2500);

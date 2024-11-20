@@ -1,11 +1,14 @@
 import ChatRoom from "../Components/Chatroom/ChatRoom.js";
 import AvatarBox from "../Components/Avatar/AvatarBox.js";
+import React, { useRef, useState } from "react";
 
 import { auth } from "../Components/Auth/firebaseConfig.js";
 import { useAuth } from "../Components/Auth/localAuth.js";
 import { useNavigate, Navigate } from "react-router-dom";
 
 const ChatPage = () => {
+    const avatarRef = useRef();
+    const [isTalking, setIsTalking] = useState(false); // State to control animation
     const auth = useAuth();
 
     // if (!auth.isAuthenticated) {
@@ -16,8 +19,8 @@ const ChatPage = () => {
             <header>
                 <SignOut />
             </header>
-            <ChatRoom />
-            <AvatarBox />
+            <ChatRoom avatarRef={avatarRef} setIsTalking={setIsTalking} />
+            <AvatarBox isTalking={isTalking} />
         </>
     );
 };
