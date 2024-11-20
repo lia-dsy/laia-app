@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./NewPassword.css";
 import { Icon } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
+import * as toastCotainers from "../toastContainers/toastContainers.js";
+import * as userAdmin from "../../modules/userAdmin";
 
 const NewPassword = () => {
     const [codeValue, setCodeValue] = useState("");
@@ -11,15 +13,29 @@ const NewPassword = () => {
 
     const signIn = (e) => {
         e.preventDefault();
-        console.log("New Password");
-        console.log("Código:", codeValue);
-        console.log("Nueva contraseña:", passwordValue);
-        console.log("Contraseña confirmada:", confirmPasswordValue);
-
-        // Reset form values
+        const code = codeValue;
+        const newPassword = passwordValue;
         setCodeValue("");
         setPasswordValue("");
         setConfirmPasswordValue("");
+
+        try {
+            const user = localStorage.getItem("recoveryUser");
+            localStorage.removeItem("recoveryUser");
+            userAdmin
+                .updateUser(user, "", "", newPassword, code)
+                .then((response) => {
+                    console.log(response);
+                    toastCotainers
+                        .success(`Contraseña cambiada correctamente`, 2500)
+                        .then(() => {
+                            navigate("/login");
+                        });
+                });
+        } catch (error) {
+            console.error(`Error al cambiar la contraseña: ${error}`);
+            toastCotainers.error(`Error al cambiar la contraseña`, 2500);
+        }
     };
 
     const validateConfirm = () => {
@@ -53,7 +69,7 @@ const NewPassword = () => {
 
                     <div className="input-box">
                         <input
-                            type="text"
+                            type="password"
                             placeholder="Nueva contraseña"
                             value={passwordValue}
                             onChange={(e) => setPasswordValue(e.target.value)}
@@ -64,7 +80,7 @@ const NewPassword = () => {
 
                     <div className="input-box">
                         <input
-                            type="text"
+                            type="password"
                             placeholder="Confirmar contraseña"
                             value={confirmPasswordValue}
                             onChange={(e) =>

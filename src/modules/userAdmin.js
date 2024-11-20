@@ -51,6 +51,9 @@ async function updateUser(user, password, newUser, newPassword, code) {
     try {
         const data = { user, password, newUser, newPassword, code };
 
+        if (password === "") {
+            delete data.password;
+        }
         if (newUser === "") {
             delete data.newUser;
         }
@@ -61,7 +64,9 @@ async function updateUser(user, password, newUser, newPassword, code) {
             delete data.code;
         }
 
-        const response = await axios.put(userPath, data, {
+        console.log("updateUser data:", data);
+
+        const response = await axios.put(`${userPath}/new-data`, data, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -72,4 +77,19 @@ async function updateUser(user, password, newUser, newPassword, code) {
     }
 }
 
-export { insertUser, validateUser, deleteUser, updateUser };
+async function requestRecovery(user, email) {
+    try {
+        const data = { user, email };
+        console.log("requestRecovery data:", data);
+        const response = await axios.post(`${userPath}/recovery-code`, data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return await response.data;
+    } catch (error) {
+        return await error.response.data;
+    }
+}
+
+export { insertUser, validateUser, deleteUser, updateUser, requestRecovery };

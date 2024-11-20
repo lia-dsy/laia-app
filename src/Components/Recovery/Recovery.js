@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Recovery.css";
 import { Icon } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
+import * as toastCotainers from "../toastContainers/toastContainers.js";
+import * as userAdmin from "../../modules/userAdmin";
 
 const Recovery = () => {
     const [userValue, setUserValue] = useState("");
@@ -10,14 +12,34 @@ const Recovery = () => {
 
     const signIn = (e) => {
         e.preventDefault();
-        console.log("Recovery");
-        console.log("User:", userValue);
-        console.log("Recovery Email:", emailValue);
-
-        // Reset form values
+        const user = userValue;
+        const email = emailValue;
         setUserValue("");
         setEmailValue("");
-        navigate("/newpassword");
+
+        try {
+            localStorage.setItem("recoveryUser", user);
+            userAdmin.requestRecovery(user, email).then((response) => {
+                if (!response.error) {
+                    toastCotainers
+                        .success(
+                            `Código de recuperación enviado a ${email}`,
+                            2500
+                        )
+                        .then(() => {
+                            navigate("/newpassword");
+                        });
+                } else {
+                    console.error(
+                        `Error al solicitar el código: ${response.error}`
+                    );
+                    toastCotainers.error(`Error al solicitar el código`, 3000);
+                }
+            });
+        } catch (error) {
+            console.error(`Error al solicitar el código: ${error}`);
+            toastCotainers.error(`Error al solicitar el código`, 3000);
+        }
     };
 
     return (

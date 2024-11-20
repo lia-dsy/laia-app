@@ -2,8 +2,8 @@ import { useContext, createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { headers } from "next/headers";
 import Loading from "../Loading/Loading.js";
-// const userPath = "https://127.0.0.1:5000/api/response_users";
-const userPath = "http://127.0.0.1:5000/api/response_users";
+const userPath = "https://127.0.0.1:5000/api/response_users";
+// const userPath = "http://127.0.0.1:5000/api/response_users";
 
 const AuthContext = createContext({
     isAuthenticated: false,
